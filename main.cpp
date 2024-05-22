@@ -24,7 +24,11 @@ int main()
     Sprite p1;
     p1.setTexture(p1Texture);
     p1.setTextureRect(IntRect(0, 0, 248, 243));
+<<<<<<< HEAD
     // p1.setScale(0.5);
+=======
+    p1.setScale(0.3,0.3);
+>>>>>>> 495a484dcd7c085f93bb1293d08313c88764a661
 
     while (window.isOpen())
     {
