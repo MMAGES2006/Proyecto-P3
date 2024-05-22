@@ -7,6 +7,7 @@ using namespace sf;
 int numCells = 25;
 int width = 500;
 int height = 500;
+int speed = 10;
 
 int main()
 {
@@ -24,11 +25,7 @@ int main()
     Sprite p1;
     p1.setTexture(p1Texture);
     p1.setTextureRect(IntRect(0, 0, 248, 243));
-<<<<<<< HEAD
-    // p1.setScale(0.5);
-=======
     p1.setScale(0.3,0.3);
->>>>>>> 495a484dcd7c085f93bb1293d08313c88764a661
 
     while (window.isOpen())
     {
@@ -37,18 +34,10 @@ int main()
         {
             if (event.type == Event::Closed)
                 window.close();
-
-            if (event.type == Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == Mouse::Left)
-                {
-                    mousePressed = true;
-                    int x = event.mouseButton.x;
-                    int y = event.mouseButton.y;
-                    grid.toggle(x, y);
-                }
-            }
-
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) p1.move(speed,0);
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) p1.move(0,speed);
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) p1.move(-speed,0);
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) p1.move(0,-speed);
             window.clear();
             // grid.update();
             window.draw(p1);
