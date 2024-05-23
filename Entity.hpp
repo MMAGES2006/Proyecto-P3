@@ -13,6 +13,7 @@ class Entity
 {
 public:
     int health, speed;
+    float x, y;
     float semiWidth, semiHeight;
     vector<bool> hitbox;
     Grid* grid;
@@ -22,6 +23,7 @@ public:
     void update();
     bool collisionMap(float x, float y, Direction direction);
     int identifyMap(float x, float y);
+    void updateXY();
 };
 
 #endif

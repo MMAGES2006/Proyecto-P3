@@ -5,16 +5,19 @@
 using namespace std;
 using namespace sf;
 
-int cols = 36;
-int rows = 20;
-int pixel = 50;
-int width = cols*pixel;
-int height = rows*pixel;
-int speed = 5;
-
 int main()
 {
+    int cols = 72; //36
+    int rows = 40; //20
+    int pixel = 25; //50
+    int width = cols*pixel;
+    int height = rows*pixel;
+    int speed = 5;
     bool mousePressed = false;
+    bool follow = 0;
+    View map, camera;
+    camera.setSize(width/2, height/2);
+    map.setSize(width, height);
     RenderWindow window(VideoMode(width, height), "SFML works!");
     window.setFramerateLimit(60);
     Grid grid(cols, rows, pixel);
@@ -51,6 +54,11 @@ int main()
                 {
                     play = !play;
                 }*/
+                if (event.mouseButton.button == Mouse::Right) 
+                {
+                    follow = !follow;
+                    if(!follow) window.setView(map);
+                }
             }
         }
         /*
@@ -61,6 +69,11 @@ int main()
         */
         player.control(time);
         window.clear();
+        if(follow) 
+        {
+            camera.setCenter(player.x, player.y);
+            window.setView(camera);
+        }
         //grid.update();
         grid.drawTo(window);
         player.drawTo(window);

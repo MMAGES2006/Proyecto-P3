@@ -2,10 +2,13 @@
 
 Entity::Entity(int health, int speed, Skin skin, Grid* grid, int x, int y)
 {
+    float resizeFactor = this->grid->pixel/50;
     string skinName;
     Texture texture;
     this->health = health;
     this->speed = speed;
+    this->x = x;
+    this->y = y;
     this->hitbox = {0, 0, 0, 0, 0, 0};
     this->grid = grid;
     switch(skin)
@@ -17,10 +20,10 @@ Entity::Entity(int health, int speed, Skin skin, Grid* grid, int x, int y)
     if (!texture.loadFromFile(skinName)) cout << "Error al cargar imagen" << '\n';
     this->sprite.setTexture(texture);
     this->sprite.setTextureRect(IntRect(0, 0, 248, 243));
-    this->sprite.setScale(0.3, 0.35);
-    this->sprite.setPosition(x, y);
+    this->sprite.setScale(0.3/2/**resizeFactor*/, 0.35/2/**resizeFactor*/);
     this->semiWidth=this->sprite.getGlobalBounds().getSize().x/2;
     this->semiHeight=this->sprite.getGlobalBounds().getSize().y/2;
+    this->sprite.setPosition(x - this->semiWidth, y - this->semiHeight);
 }
 
 void Entity::drawTo(RenderWindow &window)
@@ -40,7 +43,7 @@ bool Entity::collisionMap(float x, float y, Direction direction) //esta así par
   this->hitbox[1] = identifyMap(x, y) > 0;
   this->hitbox[2] = identifyMap(x + this->semiWidth, y) > 0;
   this->hitbox[3] = identifyMap(x - this->semiWidth, y + this->semiHeight) > 0;
-  this->hitbox[4] = identifyMap(x, y) > 0;
+  this->hitbox[4] = identifyMap(x, y + this->semiHeight) > 0;
   this->hitbox[5] = identifyMap(x + this->semiWidth, y + this->semiHeight) > 0;
   if(this->hitbox == trapped) return 0;
   switch(direction)
@@ -69,4 +72,10 @@ int Entity::identifyMap(float x, float y)
   int indexX = x / this->grid->pixel;
   int indexY = y / this->grid->pixel;
   return this->grid->map[indexX][indexY];
+}
+
+void Entity::updateXY()
+{
+  this->x = this->sprite.getPosition().x + this->semiWidth;
+  this->y = this->sprite.getPosition().y + this->semiHeight;
 }
