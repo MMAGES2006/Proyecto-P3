@@ -63,7 +63,7 @@ int main()
         window.clear();
         //grid.update();
         grid.drawTo(window);
-        player.drawTo(window);
+        //player.drawTo(window);
         ///*
         window.draw(p1);
         //*/
