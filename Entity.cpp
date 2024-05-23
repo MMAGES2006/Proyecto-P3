@@ -1,17 +1,18 @@
 #include "Entity.hpp"
 
-Entity::Entity(int health, int speed, int skin, Grid* grid, int x, int y)
+Entity::Entity(int health, int speed, Skin skin, Grid* grid, int x, int y)
 {
     string skinName;
     Texture texture;
     this->health = health;
     this->speed = speed;
+    this->hitbox = {0, 0, 0, 0, 0, 0};
     this->grid = grid;
     switch(skin)
     {
-        case monkey:
-            skinName="sprites/P1.png";
-            break;
+      case monkey:
+        skinName="sprites/P1.png";
+        break;
     }
     if (!texture.loadFromFile(skinName)) cout << "Error al cargar imagen" << '\n';
     this->sprite.setTexture(texture);
@@ -32,32 +33,38 @@ void Entity::update()
   return;
 }
 
-bool Entity::collisionMap(float x, float y) //esta así para que sea más rápido, bueno, al menos creo que así es más rapido
+bool Entity::collisionMap(float x, float y, Direction direction) //esta así para que sea más rápido, bueno, al menos creo que así es más rapido
 {
-  /*
-  if(identifyCoordinates(x-semiWidth, y)<1)
+  vector<bool> trapped = {1, 1, 1, 1, 1, 1};
+  this->hitbox[0] = identifyMap(x - this->semiWidth, y) > 0;
+  this->hitbox[1] = identifyMap(x, y) > 0;
+  this->hitbox[2] = identifyMap(x + this->semiWidth, y) > 0;
+  this->hitbox[3] = identifyMap(x - this->semiWidth, y + this->semiHeight) > 0;
+  this->hitbox[4] = identifyMap(x, y) > 0;
+  this->hitbox[5] = identifyMap(x + this->semiWidth, y + this->semiHeight) > 0;
+  if(this->hitbox == trapped) return 0;
+  switch(direction)
   {
-    if(identifyCoordinates(x+semiWidth, y)<1)
-    {
-        if(identifyCoordinates(x, y+semiHeight)<1)
-        {
-            if(identifyCoordinates(x-semiWidth, y+semiHeight)<1)
-            {
-                if(identifyCoordinates(x+semiWidth, y+semiHeight)<1)
-                {
-                    if(identifyCoordinates(x, y)) return 0;
-                }
-            }
-        }
-    }
+    case UP:
+      if(this->hitbox[0] || this->hitbox[1] || this->hitbox[2]) return 1;
+      break;
+    case LEFT:
+      if(this->hitbox[0] || this->hitbox[3]) return 1;
+      break;
+    case DOWN:
+      if(this->hitbox[3] || this->hitbox[4] || this->hitbox[5]) return 1;
+      break;
+    case RIGHT:
+      if(this->hitbox[2] || this->hitbox[5]) return 1;
+      break;
+    case NONE:
+      if(this->hitbox[0] || this->hitbox[1] || this->hitbox[2] || this->hitbox[3] || this->hitbox[4] || this->hitbox[5]) return 1;
+      break;
   }
-  return 1;
-  */
-  if(identifyCoordinates(x, y)>0) return 1;
-  else return 0;
+  return 0;
 }
 
-int Entity::identifyCoordinates(float x, float y)
+int Entity::identifyMap(float x, float y)
 {
   int indexX = x / this->grid->pixel;
   int indexY = y / this->grid->pixel;

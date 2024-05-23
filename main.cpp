@@ -18,8 +18,8 @@ int main()
     RenderWindow window(VideoMode(width, height), "SFML works!");
     window.setFramerateLimit(60);
     Grid grid(cols, rows, pixel);
-    //Player player(10, 5, monkey, &grid, 100, 100);
-    ///*
+    Player player(10, 5, monkey, &grid, 100, 100);
+    /*
     Texture p1Texture;
     if (!p1Texture.loadFromFile("sprites/P1.png"))
     {
@@ -29,7 +29,7 @@ int main()
     p1.setTexture(p1Texture);
     p1.setTextureRect(IntRect(0, 0, 248, 243));
     p1.setScale(0.3, 0.35);
-    //*/
+    */
     Clock timer;
     float time=16.67;
     while (window.isOpen())
@@ -53,20 +53,20 @@ int main()
                 }*/
             }
         }
-        ///*
+        /*
         if (Keyboard::isKeyPressed(Keyboard::W)) p1.move(0, -speed*time);
         if (Keyboard::isKeyPressed(Keyboard::A)) p1.move(-speed*time, 0);
         if (Keyboard::isKeyPressed(Keyboard::S)) p1.move(0, speed*time);
         if (Keyboard::isKeyPressed(Keyboard::D)) p1.move(speed*time, 0);
-        //*/
-        //player.control(time);
+        */
+        player.control(time);
         window.clear();
         //grid.update();
         grid.drawTo(window);
-        //player.drawTo(window);
-        ///*
+        player.drawTo(window);
+        /*
         window.draw(p1);
-        //*/
+        */
         window.display();
         time = (timer.restart().asMilliseconds())/10;
     }
