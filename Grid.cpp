@@ -1,72 +1,47 @@
 #include "Grid.hpp"
 
-Grid::Grid(int rows, int cols)
+Grid::Grid(int cols, int rows, int pixel)
 {
-    this->rows = rows;
     this->cols = cols;
-    for (int i = 0; i < rows; i++)
+    this->rows = rows;
+    this->pixel = pixel;
+    for (int i = 0; i < cols; i++)
     {
-        tablero.push_back({});
-        for (int j = 0; j < cols; j++)
+        map.push_back({});
+        for (int j = 0; j < rows; j++)
         {
-            tablero[i].push_back(0);
+            map[i].push_back(0);
         }
     }
-
-    this->siguiente = vector<vector<int>>(rows, vector<int>(cols, 0));
-}
-
-Grid::Grid(int n, int w, int h)
-{
-    this->rows = n;
-    this->cols = n;
-    this->w = w;
-    this->h = h;
-    for (int i = 0; i < this->rows; i++)
-    {
-        tablero.push_back({});
-        for (int j = 0; j < this->cols; j++)
-        {
-            tablero[i].push_back(0);
-        }
-    }
-    this->siguiente = vector<vector<int>>(rows, vector<int>(cols, 0));
+    this->next = vector<vector<int>>(rows, vector<int>(cols, 0));
 }
 
 void Grid::drawTo(RenderWindow &window)
 {
-    int sizeX = this->w / this->cols;
-    int sizeY = this->h / this->rows;
-
-    for (int i = 0; i < this->rows; i++)
+    for (int i = 0; i < this->cols; i++)
     {
-        for (int j = 0; j < this->cols; j++)
+        for (int j = 0; j < this->rows; j++)
         {
-            RectangleShape rect(Vector2f(sizeX, sizeY));
-            rect.setPosition(Vector2f(j * sizeX, i * sizeY));
-            rect.setOutlineThickness(1);
-            rect.setOutlineColor(Color::Black);
-            if (tablero[i][j] == 1)
+            if (map[i][j])
             {
+                RectangleShape rect(Vector2f(this->pixel, this->pixel));
+                rect.setPosition(Vector2f(i * this->pixel, j * this->pixel));
                 rect.setFillColor(Color::Blue);
+                window.draw(rect);
             }
-            window.draw(rect);
         }
     }
 }
 
 void Grid::toggle(int x, int y)
-{
-    int sizeX = this->w / this->cols;
-    int sizeY = this->h / this->rows;
+{   
+    int indexX = x / this->pixel;
+    int indexY = y / this->pixel;
 
-    int indexX = x / sizeX;
-    int indexY = y / sizeY;
-
-    tablero[indexX][indexY] = (tablero[indexX][indexY] + 1) % 2;
+    map[indexX][indexY] = (map[indexX][indexY] + 1) % 2;
 }
 
-void Grid::update()
+/*void Grid::update()
 {
     for (int i = 0; i < this->rows; i++)
     {
@@ -99,3 +74,4 @@ void Grid::update()
     }
     this->tablero = this->siguiente;
 }
+*/
