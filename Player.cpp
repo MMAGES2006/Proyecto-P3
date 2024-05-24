@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(int health, int speed, Skin skin, Grid* grid, int x, int y): Entity(health, speed, skin, grid, x,y){}
+Player::Player(int health, int speed, Texture &texture, Grid* grid, int x, int y): Entity(health, speed, texture, grid, x,y){}
 
 void Player::control(float time)
 {

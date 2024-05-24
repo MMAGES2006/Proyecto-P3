@@ -1,34 +1,26 @@
 #include "Entity.hpp"
 
-Entity::Entity(int health, int speed, Skin skin, Grid* grid, int x, int y)
+Entity::Entity(int health, int speed, Texture &texture, Grid* grid, int x, int y)
 {
-    float resizeFactor = this->grid->pixel/50;
-    string skinName;
-    Texture texture;
-    this->health = health;
-    this->speed = speed;
-    this->x = x;
-    this->y = y;
-    this->hitbox = {0, 0, 0, 0, 0, 0};
-    this->grid = grid;
-    switch(skin)
-    {
-      case monkey:
-        skinName="sprites/P1.png";
-        break;
-    }
-    if (!texture.loadFromFile(skinName)) cout << "Error al cargar imagen" << '\n';
-    this->sprite.setTexture(texture);
-    this->sprite.setTextureRect(IntRect(0, 0, 248, 243));
-    this->sprite.setScale(0.3/2/**resizeFactor*/, 0.35/2/**resizeFactor*/);
-    this->semiWidth=this->sprite.getGlobalBounds().getSize().x/2;
-    this->semiHeight=this->sprite.getGlobalBounds().getSize().y/2;
-    this->sprite.setPosition(x - this->semiWidth, y - this->semiHeight);
+  string skinName;
+  this->health = health;
+  this->speed = speed;
+  this->x = x;
+  this->y = y;
+  this->hitbox = {0, 0, 0, 0, 0, 0};
+  this->grid = grid;
+  float resizeFactor = (float)this->grid->pixel/50;
+  this->sprite.setTexture(texture);
+  this->sprite.setTextureRect(IntRect(0, 0, 248, 243));
+  this->sprite.setScale(0.3*resizeFactor, 0.35*resizeFactor);
+  this->semiWidth=this->sprite.getGlobalBounds().getSize().x/2;
+  this->semiHeight=this->sprite.getGlobalBounds().getSize().y/2;
+  this->sprite.setPosition(x - this->semiWidth, y - this->semiHeight);
 }
 
 void Entity::drawTo(RenderWindow &window)
 {
-    window.draw(this->sprite);
+  window.draw(this->sprite);
 }
 
 void Entity::update()
