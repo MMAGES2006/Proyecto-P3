@@ -40,38 +40,3 @@ void Grid::toggle(int x, int y)
 
     map[indexX][indexY] = (map[indexX][indexY] + 1) % 2;
 }
-
-/*void Grid::update()
-{
-    for (int i = 0; i < this->rows; i++)
-    {
-        for (int j = 0; j < this->cols; j++)
-        {
-            if (this->tablero[i][j] == 1)
-            {
-
-                if (i < this->rows - 1 && tablero[i + 1][j] == 0)
-                {
-                    siguiente[i + 1][j] = 1;
-                    siguiente[i][j] = 0;
-                }
-                else if (i < this->rows - 2 && j < this->cols - 1 && tablero[i + 2][j + 1] == 0)
-                {
-                    siguiente[i + 1][j + 1] = 1;
-                    siguiente[i][j] = 0;
-                }
-                else if (i < this->rows - 2 && j > 0 && tablero[i + 2][j - 1] == 0)
-                {
-                    siguiente[i + 1][j - 1] = 1;
-                    siguiente[i][j] = 0;
-                }
-                else
-                {
-                    siguiente[i][j] = 1;
-                }
-            }
-        }
-    }
-    this->tablero = this->siguiente;
-}
-*/
