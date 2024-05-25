@@ -7,8 +7,8 @@ using namespace sf;
 
 int main()  //Camera 36x20, 50 square pixels
 {
-    int cols = 72; //72
-    int rows = 50; //40
+    int cols = 100; //72
+    int rows = 100; //40 (as long as it divides the height it should be fine)
     int pixelCamera = 50; //50
     int height = 1000;
     int pixel = height/rows;
@@ -26,12 +26,12 @@ int main()  //Camera 36x20, 50 square pixels
     Vector2i mapPosition = window.getPosition();
     Vector2i cameraPostion = mapPosition + Vector2i((widthMap-widthCamera)/2, 0);
     window.setFramerateLimit(60);
-    Grid grid(cols, rows, pixel, pixelCamera, &playing);
+    Grid grid(cols, rows, pixel, changeFactor, &playing);
     Texture monkey;
     if (!monkey.loadFromFile("sprites/P1.png")) cout << "Error al cargar imagen" << '\n';
     Player player(10, 5, monkey, &playing, &grid, 100, 100);
     Clock timer;
-    float time=16.67;
+    float time=1.667;
     while (window.isOpen())
     {
         Event event;
@@ -74,7 +74,7 @@ int main()  //Camera 36x20, 50 square pixels
         grid.drawTo(window);
         player.drawTo(window);
         window.display();
-        time = (timer.restart().asMilliseconds())/10;
+        time = ((float)timer.restart().asMilliseconds())/10;
     }
     return 0;
 }

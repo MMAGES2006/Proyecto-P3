@@ -11,7 +11,8 @@ enum Direction{UP, LEFT, DOWN, RIGHT, NONE};
 class Entity
 {
 public:
-    int health, speed;
+    int health;
+    float speed;
     float x, y;
     float semiWidth, semiHeight;
     bool* playing;

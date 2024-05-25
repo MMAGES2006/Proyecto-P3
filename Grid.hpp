@@ -10,12 +10,12 @@ class Grid
 public:
     vector<vector<int>> map;
     vector<vector<int>> next;
-    int cols, rows, pixel, pixelCamera;
+    int cols, rows, pixel;
+    float changeFactor;
     bool* playing;
-    Grid(int cols, int rows, int pixel, int pixelCamera, bool* playing);
+    Grid(int cols, int rows, int pixel, float changeFactor, bool* playing);
     void drawTo(RenderWindow  &window);
     void toggle(int x,int y);
-    //int calcularVecinos(int i, int j);
 };
 
 #endif
