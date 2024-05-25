@@ -1,10 +1,12 @@
 #include "Grid.hpp"
 
-Grid::Grid(int cols, int rows, int pixel)
+Grid::Grid(int cols, int rows, int pixel, int pixelCamera, bool* playing)
 {
     this->cols = cols;
     this->rows = rows;
     this->pixel = pixel;
+    this->pixelCamera = pixelCamera;
+    this->playing = playing;
     for (int i = 0; i < cols; i++)
     {
         map.push_back({});

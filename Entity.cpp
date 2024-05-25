@@ -1,15 +1,16 @@
 #include "Entity.hpp"
 
-Entity::Entity(int health, int speed, Texture &texture, Grid* grid, int x, int y)
+Entity::Entity(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y)
 {
   string skinName;
   this->health = health;
   this->speed = speed;
   this->x = x;
   this->y = y;
+  this->playing = playing;
   this->hitbox = {0, 0, 0, 0, 0, 0};
   this->grid = grid;
-  float resizeFactor = (float)this->grid->pixel/50;
+  float resizeFactor = (float)this->grid->pixel/(float)this->grid->pixelCamera;
   this->sprite.setTexture(texture);
   this->sprite.setTextureRect(IntRect(0, 0, 248, 243));
   this->sprite.setScale(0.3*resizeFactor, 0.35*resizeFactor);

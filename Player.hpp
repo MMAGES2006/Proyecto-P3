@@ -11,7 +11,7 @@ class Player: public Entity
 private:
 
 public:
-    Player(int health, int speed, Texture &texture, Grid* grid, int x, int y);
+    Player(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y);
     void control(float time);
 };
 
