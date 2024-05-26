@@ -19,7 +19,7 @@ public:
     int spawnX, spawnY;
     Room* roomsMatrix[4][4];
     Grid(int cols, int rows, int pixel, float changeFactor, bool* playing); //constructor
-    void generateMap();
+    void generateMap(); //pretende ser una generación procedural del mapa pero esta en pañales
     void drawTo(RenderWindow  &window); //dibuja la matriz
     int identifyMap(float x, float y); //regresa el valor de la celda de la matriz con coordenadas x, y, se esta usando para detectar colisión
     void toggle(int x,int y); //usada para cambiar el estado de una celda con coordenadas x, y

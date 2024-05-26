@@ -159,15 +159,6 @@ void Grid::drawTo(RenderWindow &window)
         }
         window.draw(rect);
         }
-        /*
-        if (this->map[i][j])
-        {
-            RectangleShape rect(Vector2f(this->pixel, this->pixel));
-            rect.setPosition(Vector2f(i * this->pixel, j * this->pixel));
-            rect.setFillColor(Color::Blue);
-            window.draw(rect);
-        }
-        */
     }
   }
 }
