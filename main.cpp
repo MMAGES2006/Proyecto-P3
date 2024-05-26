@@ -39,7 +39,7 @@ int main()  //Camera 36x20, 50 square pixels
     
     Texture slime; 
     if (!slime.loadFromFile("sprites/slime.png")) cout << "Error al cargar imagen" << '\n';
-    Enemy enemy(5, 3, slime, &grid, 10, 10); 
+    Enemy enemy(5, 3, slime, &grid, 500, 500); 
     
     Clock timer;
     float time = 100 / fps;
