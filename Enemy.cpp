@@ -17,6 +17,12 @@ Enemy::Enemy(int health, int speed, Texture &texture, Grid *grid, int x, int y)
   this->sprite.setPosition(x - this->semiWidth, y - this->semiHeight);
 }
 
+void Enemy::seguirPlayer()
+{
+    Vector2f direction = this->.getposition() ; 
+
+}
+
 void Enemy::drawTo(RenderWindow & window)
 {
     window.draw(this->sprite);

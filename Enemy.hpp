@@ -6,7 +6,7 @@
 using namespace sf;
 using namespace std;
 
-class Enemy
+class Enemy: public Entity
 {
 public:
     int health;
@@ -22,7 +22,8 @@ public:
     bool collisionMap(float x, float y, Direction direction); 
     void updateXY(); 
     Enemy(int health, int speed, Texture &texture, Grid* grid, int x, int y); //constructor
-    
+    void seguirPlayer(); 
+
 };
 
 #endif
