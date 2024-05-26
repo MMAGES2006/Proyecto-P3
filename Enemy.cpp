@@ -1,5 +1,6 @@
 #include "Enemy.hpp"
 
+<<<<<<< HEAD
 
 Enemy::Enemy(int health, int speed, Texture &texture, Grid *grid, int x, int y)
 {
@@ -69,3 +70,7 @@ void Enemy::updateXY()
   this->x = this->sprite.getPosition().x + this->semiWidth;
   this->y = this->sprite.getPosition().y + this->semiHeight;
 }
+=======
+Enemy::Enemy(int health, int speed, Texture &texture, bool* playing, Grid *grid, int x, int y): 
+Entity(health, speed, texture, playing, grid, x, y){}
+>>>>>>> 21d16b06ba17d8e1b4a5b285b56bab227f038f50

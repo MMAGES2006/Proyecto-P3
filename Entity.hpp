@@ -2,12 +2,12 @@
 #define Entity_h
 #include <SFML/Graphics.hpp>
 #include "Grid.hpp"
-#include <iostream>
 #include <vector>
 using namespace sf;
 using namespace std;
 
 enum Direction{UP, LEFT, DOWN, RIGHT, NONE};
+
 class Entity
 {
 public:

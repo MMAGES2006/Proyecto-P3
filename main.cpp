@@ -8,7 +8,7 @@ using namespace sf;
 
 int main()  //Camera 36x20, 50 square pixels
 {
-    int cols = 100; //72
+    int cols = 180; //72
     int rows = 100; //40 (as long as it divides the height it should be fine)
     int pixelCamera = 50; //50
     int height = 1000;
@@ -35,11 +35,15 @@ int main()  //Camera 36x20, 50 square pixels
 
     Texture monkey;
     if (!monkey.loadFromFile("sprites/P1.png")) cout << "Error al cargar imagen" << '\n';
-    Player player(10, 5, monkey, &playing, &grid, 100, 100);
+    Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture slime; 
     if (!slime.loadFromFile("sprites/slime.png")) cout << "Error al cargar imagen" << '\n';
+<<<<<<< HEAD
     Enemy enemy(5, 3, slime, &grid, 500, 500); 
+=======
+    Enemy enemy(5, 3, slime, &playing, &grid, 10, 10); 
+>>>>>>> 21d16b06ba17d8e1b4a5b285b56bab227f038f50
     
     Clock timer;
     float time = 100 / fps;
