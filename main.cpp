@@ -40,12 +40,12 @@ int main()  //Camera 36x20, 50 square pixels
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture slime; 
-    if (!slime.loadFromFile("sprites/slime.png")) cout << "Error al cargar imagen" << '\n';
+    if (!slime.loadFromFile("sprites/slimeSF.png")) cout << "Error al cargar imagen" << '\n';
     Enemy enemy(5, 3, slime, &playing, &grid, 400, 400); 
 
     Texture pistola; 
-    if (!pistola.loadFromFile("sprites/pistola.png")) cout << "Error al cargar imagen" << '\n';
-    Arma pistola(); 
+    if (!pistola.loadFromFile("sprites/pistolaSF.png")) cout << "Error al cargar imagen" << '\n';
+    Arma gun(5, 1,pistola); 
     
     
     Clock timer;
