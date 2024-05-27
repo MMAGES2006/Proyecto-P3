@@ -2,7 +2,7 @@
 
 Arma::Arma(int damage, int cooldown, Texture & texture)
 {
-    this 
+     
 }
 
 void Arma::atacar()
