@@ -2,6 +2,7 @@
 #include "Grid.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "Arma.hpp"
 #include <iostream>
 using namespace std;
 using namespace sf;
@@ -33,17 +34,19 @@ int main()  //Camera 36x20, 50 square pixels
     window.setFramerateLimit(fps);
     Grid grid(cols, rows, pixel, changeFactor, &playing);
 
+    //Sprites
     Texture monkey;
     if (!monkey.loadFromFile("sprites/P1.png")) cout << "Error al cargar imagen" << '\n';
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture slime; 
     if (!slime.loadFromFile("sprites/slime.png")) cout << "Error al cargar imagen" << '\n';
-<<<<<<< HEAD
-    Enemy enemy(5, 3, slime, &grid, 500, 500); 
-=======
-    Enemy enemy(5, 3, slime, &playing, &grid, 10, 10); 
->>>>>>> 21d16b06ba17d8e1b4a5b285b56bab227f038f50
+    Enemy enemy(5, 3, slime, &playing, &grid, 400, 400); 
+
+    Texture pistola; 
+    if (!pistola.loadFromFile("sprites/pistola.png")) cout << "Error al cargar imagen" << '\n';
+    Arma pistola(); 
+    
     
     Clock timer;
     float time = 100 / fps;
