@@ -5,7 +5,7 @@
 using namespace sf;
 using namespace std;
 
-enum RoomType{SPAWN, COMBAT, SPECIAL, EXIT};
+enum RoomType{SPAWN, COMBAT, SPECIAL, EXIT, VOID};
 class Grid;
 
 class Room
