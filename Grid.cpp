@@ -13,8 +13,7 @@ Grid::Grid(int cols, int rows, int pixel, float changeFactor, bool* playing)
   }
   for(int i=0; i<4; i++)
   {
-    this->miniMap.push_back({});
-    for(int j=0; j<4; j++) this->miniMap[i].push_back(VOID);
+    for(int j=0; j<4; j++) this->miniMap[i][j] = VOID;
   }
   this->map = vector<vector<int>>(cols, vector<int>(rows, 0));
   this->generateMap();
@@ -33,12 +32,7 @@ void Grid::generateMap()
   cout<<mainCombatRooms<<'\n';
   int chosenNeighbor;
   int numberNeighbor;
-  vector<vector<RoomType>> fakeMap;
-  for(int i=0; i<4; i++)
-  {
-    fakeMap.push_back({});
-    for(int j=0; j<4; j++) fakeMap[i].push_back(VOID);
-  }
+  RoomType fakeMap[4][4];
   /*int extraSpecialRooms = rand() % 3;
   cout<<extraSpecialRooms<<'\n';
   int chosenNeighbor;
@@ -59,26 +53,16 @@ void Grid::generateMap()
   for(int leftMainPath = mainCombatRooms + 1; leftMainPath > 0; leftMainPath--)
   {
     for(int i=0; i<4; i++)
-  {
-    for(int j=0; j<4; j++) cout<<this->miniMap[i][j];
-    cout<<' ';
-  }
-    fakeMap = this->miniMap;
-    cout<<"a\n";
+    {
+      for(int j=0; j<4; j++) fakeMap[i][j] = this->miniMap[i][j];
+    }
     if(this->enoughLenght(x, y-1, leftMainPath, fakeMap)) neighbors.push_back({x, y-1});
-    cout<<"b\n";
     if(this->enoughLenght(x-1, y, leftMainPath, fakeMap)) neighbors.push_back({x-1, y});
-    cout<<"c\n";
     if(this->enoughLenght(x+1, y, leftMainPath, fakeMap)) neighbors.push_back({x+1, y});
-    cout<<"d\n";
     if(this->enoughLenght(x, y+1, leftMainPath, fakeMap)) neighbors.push_back({x, y+1});
     for(int i=0; i<neighbors.size(); i++) cout<<neighbors[i].first<<','<<neighbors[i].second<<'\n';
     cout<<'\n';
-    for(int i=0; i<4; i++)
-  {
-    for(int j=0; j<4; j++) cout<<this->miniMap[i][j];
-    cout<<' ';
-  }
+
     numberNeighbor = neighbors.size();
     chosenNeighbor = rand() % numberNeighbor;
     x = neighbors[chosenNeighbor].first;
@@ -253,7 +237,7 @@ void Grid::createRoom(int x, int y, RoomType type)
   cout<<"room actually created\n";
 }
 
-bool Grid::enoughLenght(int x, int y, int lenght, vector<vector<RoomType>> fakeMap)
+bool Grid::enoughLenght(int x, int y, int lenght, RoomType fakeMap[4][4])
 {
   if((x < 0) || (y < 0) || (x > 3) || (y > 3)) return 0;
   if(fakeMap[x][y]!=VOID) return 0;

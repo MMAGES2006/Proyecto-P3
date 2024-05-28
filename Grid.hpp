@@ -18,14 +18,14 @@ public:
     bool* playing; //es un booleano que es verdadero si se esta jugando, falso sino
     int spawnX, spawnY;
     Room* roomsMatrix[4][4];
-    vector<vector<RoomType>> miniMap;
+    RoomType miniMap[4][4];
     Grid(int cols, int rows, int pixel, float changeFactor, bool* playing); //constructor
     void generateMap(); //pretende ser una generación procedural del mapa pero esta en pañales
     void drawTo(RenderWindow  &window); //dibuja la matriz
     int identifyMap(float x, float y); //regresa el valor de la celda de la matriz con coordenadas x, y, se esta usando para detectar colisión
     void toggle(int x,int y); //usada para cambiar el estado de una celda con coordenadas x, y
     void createRoom(int x, int y, RoomType type);
-    bool enoughLenght(int x, int y, int lenght, vector<vector<RoomType>> fakeMap);
+    bool enoughLenght(int x, int y, int lenght, RoomType fakeMap[4][4]);
     bool potentialRoom(int x, int y);
 };
 
