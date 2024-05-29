@@ -4,6 +4,8 @@
 #include "Enemy.hpp"
 #include "Arma.hpp"
 #include <iostream>
+#include <math.h>
+
 using namespace std;
 using namespace sf;
 
@@ -48,7 +50,7 @@ int main() // Camera 36x20, 50 square pixels
     Texture pistola;
     if (!pistola.loadFromFile("sprites/pistolaSF.png"))
         cout << "Error al cargar imagen" << '\n';
-    Arma gun(5, 1, pistola);
+    Arma gun(5, 1, 10, pistola);
 
     Clock timer;
     float time = 100 / fps;
@@ -84,6 +86,19 @@ int main() // Camera 36x20, 50 square pixels
                 }
             }
         }
+
+        Vector2f playerCenter;
+        Vector2f mousePosWindow;
+        Vector2f aimDir;
+        Vector2f aimDirNorm;
+        playerCenter = Vector2f(player.x, player.y);
+        mousePosWindow = Vector2f(Mouse::getPosition(window));
+        aimDir = mousePosWindow - playerCenter;
+        float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
+        aimDirNorm = aimDir / magnitude;
+
+        cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
+
         player.control(time);
         window.clear();
         if (playing)

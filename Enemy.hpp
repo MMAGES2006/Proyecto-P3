@@ -15,15 +15,7 @@ public:
     void seguirJugador();
 
     Enemy();
-    Player player;
-
-    sf::Texture zombieTexture;
-    sf::Sprite zombieSprite;
-
-    Vector2f zombiePosition;
-    Vector2f playerPosition;
-    Vector2f direction;
-    Vector2f normalizedDir;
+    Player *player;
 
     int xPos;
     int yPos;
