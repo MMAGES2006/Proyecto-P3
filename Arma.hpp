@@ -8,19 +8,23 @@ using namespace std;
 
 class Arma
 {
-private:
-
 public:
-    int damage; 
-    float cooldown; 
+    int damage;
+    float cooldown;
+    int municion;
 
-    Sprite sprite; 
-    Arma(int damage, int cooldown, Texture &texture); 
+    CircleShape bullet;
+    Vector2f currVelocity;
+    float maxSpeed;
 
-    void atacar(); // para melee.
-    void disparar(); //Armas de fuego.
-    void efecto(); //Esta todavia no me decido si tendran efectos las armas, asi que queda por si acaso.
-    
+    Arma(float radius = 5.f);
+
+    Sprite sprite;
+    Arma(int damage, int cooldown, int municion, Texture &texture);
+
+    void atacar();   // para melee.
+    void disparar(); // Armas de fuego.
+    void efecto();   // Esta todavia no me decido si tendran efectos las armas, asi que queda por si acaso.
 };
 
 #endif
