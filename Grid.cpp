@@ -9,166 +9,80 @@ Grid::Grid(int cols, int rows, int pixel, float changeFactor, bool* playing)
   this->playing = playing;
   for(int i=0; i<4; i++)
   {
-    for(int j=0; j<4; j++) this->roomsMatrix[i][j] = NULL;
-  }
-  for(int i=0; i<4; i++)
-  {
-    for(int j=0; j<4; j++) this->miniMap[i][j] = VOID;
+    for(int j=0; j<4; j++) this->miniMap[i][j] = NULL;
   }
   this->map = vector<vector<int>>(cols, vector<int>(rows, 0));
   this->generateMap();
-  /*for (int i = 0; i < cols; i++)
-  {
-    map.push_back({});
-    for (int j = 0; j < rows; j++) map[i].push_back(0);
-  }*/
 }
 
 void Grid::generateMap()
 {
   srand(time(0));
-  bool incomplete = 1;
-  int mainCombatRooms = 3 + (rand() % 4)/3;
-  cout<<mainCombatRooms<<'\n';
+  
+  //mainPath
+  int mainCombatRooms = 4 + (rand() % 4)/3;
   int chosenNeighbor;
   int numberNeighbor;
   RoomType fakeMap[4][4];
-  /*int extraSpecialRooms = rand() % 3;
-  cout<<extraSpecialRooms<<'\n';
-  int chosenNeighbor;
-  int numberNeighbor;*/
 
   int x = rand() % 4, y = rand() % 4;
-  int x1, y1;
 
-  cout<<"spawn\n";
   this->createRoom(x, y, SPAWN);
-  cout<<'\n';
   
-  this->spawnX = this->roomsMatrix[x][y]->x * this->pixel;
-  this->spawnY = this->roomsMatrix[x][y]->y * this->pixel;
+  this->spawnX = this->miniMap[x][y]->x;
+  this->spawnY = this->miniMap[x][y]->y;
 
   vector<pair<int,int>> neighbors;
-
+  
   for(int leftMainPath = mainCombatRooms + 1; leftMainPath > 0; leftMainPath--)
   {
     for(int i=0; i<4; i++)
     {
-      for(int j=0; j<4; j++) fakeMap[i][j] = this->miniMap[i][j];
+      for(int j=0; j<4; j++)
+      {
+        if(this->miniMap[i][j]) fakeMap[i][j] = this->miniMap[i][j]->type;
+        else fakeMap[i][j] = VOID;
+      }
     }
     if(this->enoughLenght(x, y-1, leftMainPath, fakeMap)) neighbors.push_back({x, y-1});
     if(this->enoughLenght(x-1, y, leftMainPath, fakeMap)) neighbors.push_back({x-1, y});
     if(this->enoughLenght(x+1, y, leftMainPath, fakeMap)) neighbors.push_back({x+1, y});
     if(this->enoughLenght(x, y+1, leftMainPath, fakeMap)) neighbors.push_back({x, y+1});
-    for(int i=0; i<neighbors.size(); i++) cout<<neighbors[i].first<<','<<neighbors[i].second<<'\n';
-    cout<<'\n';
 
     numberNeighbor = neighbors.size();
     chosenNeighbor = rand() % numberNeighbor;
     x = neighbors[chosenNeighbor].first;
     y = neighbors[chosenNeighbor].second;
-    if(leftMainPath > 1) 
-    {
-      cout<<"requiredCombat\n";
-      this->createRoom(x, y, COMBAT);
-      cout<<'\n';
-    }
-    else
-    {
-      cout<<"exit\n";
-      this->createRoom(x, y, EXIT);
-      cout<<'\n';
-    }
+    if(leftMainPath > 1) this->createRoom(x, y, COMBAT);
+    else this->createRoom(x, y, EXIT);
     neighbors.clear();
   }
-  /*
-  while(incomplete)
+  
+  //deviations
+  RoomType chosenType = SPECIAL;
+  int extraSpecial = 3;
+  int increased = 1;
+  int extraCombat = 3;
+  int finish = 0;
+  int a;
+  while(chosenType!=VOID)
   {
-    if(this->potentialRoom(x, y-1)) neighbors.push_back({x, y-1});
-    if(this->potentialRoom(x-1, y)) neighbors.push_back({x-1, y});
-    if(this->potentialRoom(x+1, y)) neighbors.push_back({x+1, y});
-    if(this->potentialRoom(x, y+1)) neighbors.push_back({x, y+1});
-    for(int i=0; i<neighbors.size(); i++) cout<<neighbors[i].first<<','<<neighbors[i].second<<'\n';
-    cout<<'\n';
-    numberNeighbor = neighbors.size();
-    chosenNeighbor = rand() % numberNeighbor;
-    x = neighbors[chosenNeighbor].first;
-    y = neighbors[chosenNeighbor].second;
-    if(requiredCombatRooms > 0)
+    this->generateExtra(chosenType);
+    a = rand() % (extraSpecial * increased + extraCombat + finish); 
+    if(a < extraSpecial * increased) 
     {
-      cout<<"requiredCombat\n";
-      this->createRoom(x, y, COMBAT);
-      cout<<'\n';
-      requiredCombatRooms--;
-      numberNeighbor--;
-      if(numberNeighbor > 0)
-      {
-        neighbors.erase(neighbors.begin() + chosenNeighbor);
-        chosenNeighbor = rand() % numberNeighbor;
-        x1 = neighbors[chosenNeighbor].first;
-        y1 = neighbors[chosenNeighbor].second;
-        if(requiredSpecialRooms > 0)
-        {
-            cout<<"requiredSpecial\n";
-            this->createRoom(x1, y1, SPECIAL);
-            cout<<'\n';
-            requiredSpecialRooms--;
-        }
-        else if(extraCombatRooms + extraSpecialRooms > 0)
-        {
-            if((rand() % (extraCombatRooms + extraSpecialRooms)) < extraCombatRooms)
-            {
-                cout<<"extraCombat\n";
-                this->createRoom(x1, y1, COMBAT);
-                cout<<'\n';
-                extraCombatRooms--;
-            }
-            else
-            {
-                cout<<"extraSpecial\n";
-                this->createRoom(x1, y1, SPECIAL);
-                cout<<'\n';
-                extraSpecialRooms--;
-            }
-        }
-      }
-      neighbors.clear();
+      chosenType = SPECIAL;
+      extraSpecial--;
+      finish += increased;
     }
-    else
+    else if(a < extraSpecial * increased + extraCombat) 
     {
-      cout<<"exit"<<'\n';
-      this->createRoom(x, y, EXIT);
-      cout<<'\n';
-      incomplete = 0;
-      numberNeighbor--;
-      if(numberNeighbor > 0)
-      {
-        neighbors.erase(neighbors.begin() + chosenNeighbor);
-        chosenNeighbor = rand() % numberNeighbor;
-        x1 = neighbors[chosenNeighbor].first;
-        y1 = neighbors[chosenNeighbor].second;
-        if(extraCombatRooms + extraSpecialRooms > 0)
-        {
-            if((rand() % (extraCombatRooms + extraSpecialRooms)) < extraCombatRooms)
-            {
-                cout<<"extraCombat\n";
-                this->createRoom(x1, y1, COMBAT);
-                cout<<'\n';
-                extraCombatRooms--;
-            }
-            else
-            {
-                cout<<"extraSpecial\n";
-                this->createRoom(x1, y1, SPECIAL);
-                cout<<'\n';
-                extraSpecialRooms--;
-            }
-        }
-      }
-      cout<<"completed\n";
+      chosenType = COMBAT;
+      extraCombat--;
+      finish ++;
     }
-  }
-  */
+    else chosenType = VOID;
+  }  
 }
 
 void Grid::drawTo(RenderWindow &window)
@@ -216,25 +130,88 @@ void Grid::toggle(int x, int y)
   this->map[indexX][indexY] = (this->map[indexX][indexY] < 1) ? 1 : 0;
 }
 
+void Grid::generateExtra(RoomType type)
+{
+  int x;
+  int y;
+  int chosenNeighbor;
+  int numberNeighbor;
+  int evaluationMap[4][4];
+  vector<pair<int,int>> neighbors;
+
+  for(int i=0; i<4; i++)
+  {
+    for(int j=0; j<4; j++) evaluationMap[i][j] = 0;
+  }
+
+  if(type == SPECIAL)
+  {
+    for(int i=0; i<4; i++)
+    {
+      for(int j=0; j<4; j++)
+      {
+        if(this->miniMap[i][j])
+        { 
+          /*if(this->miniMap[i][j]->type == COMBAT)
+          {*/
+          if(this->potentialRoom(i, j-1)) evaluationMap[i][j-1] = 1;
+          if(this->potentialRoom(i-1, j)) evaluationMap[i-1][j] = 1;
+          if(this->potentialRoom(i+1, j)) evaluationMap[i+1][j] = 1;
+          if(this->potentialRoom(i, j+1)) evaluationMap[i][j+1] = 1;
+          //}
+        }
+      }
+    }    
+  }
+  else
+  {
+    for(int i=0; i<4; i++)
+    {
+      for(int j=0; j<4; j++)
+      {
+        if(this->miniMap[i][j])
+        { 
+          if(this->miniMap[i][j]->type != SPECIAL)
+          {
+            if(this->potentialRoom(i, j-1)) evaluationMap[i][j-1] = 1;
+            if(this->potentialRoom(i-1, j)) evaluationMap[i-1][j] = 1;
+            if(this->potentialRoom(i+1, j)) evaluationMap[i+1][j] = 1;
+            if(this->potentialRoom(i, j+1)) evaluationMap[i][j+1] = 1;
+          }
+        }
+      }
+    }
+  }
+  
+  for(int i=0; i<4; i++)
+  {
+    for(int j=0; j<4; j++)
+    {
+      if(evaluationMap[i][j] == 1) neighbors.push_back({i, j});
+    }
+  }
+  
+  numberNeighbor = neighbors.size();
+
+  if(numberNeighbor == 0) return;
+  chosenNeighbor = rand() % numberNeighbor;
+  x = neighbors[chosenNeighbor].first;
+  y = neighbors[chosenNeighbor].second;
+  this->createRoom(x, y, type);
+}
+
 void Grid::createRoom(int x, int y, RoomType type)
 {
-  int positionX = (this->cols*x) / 4; 
-  int positionY = (this->rows*y) / 4;
-  cout<<"position: ("<<positionX<<','<<positionY<<")\n";
   int cellWidth = this->cols / 4;
   int cellHeight = this->rows / 4;
-  cout<<"proportions: "<<cellWidth<<','<<cellHeight<<'\n';
-  Room room(type, positionX, positionY, this);
-  this->roomsMatrix[x][y] = &room;
-  this->miniMap[x][y] = type;
-  if(this->roomsMatrix[x][y]!=NULL) cout<<"room is going to be created";
-  else cout<<"room failed";
-  cout<<'\n';
+  int positionX = cellWidth * x; 
+  int positionY = cellHeight * y;
+  Room* room = new Room(type, positionX + cellWidth/2, positionY + cellHeight/2, this);
+  this->miniMap[x][y] = room;
   for(int i = 0; i < cellWidth; i++)
   {
-    for(int j = 0; j < cellHeight; j++) this->map[i + positionX][j + positionY] = room.roomGrid[i][j];
+    for(int j = 0; j < cellHeight; j++) this->map[i + positionX][j + positionY] = room->design[i][j];
   }
-  cout<<"room actually created\n";
 }
 
 bool Grid::enoughLenght(int x, int y, int lenght, RoomType fakeMap[4][4])
@@ -254,7 +231,6 @@ bool Grid::enoughLenght(int x, int y, int lenght, RoomType fakeMap[4][4])
 bool Grid::potentialRoom(int x, int y)
 {
   if((x < 0) || (y < 0) || (x > 3) || (y > 3)) return 0;
-  else if(this->roomsMatrix[x][y]!=NULL) return 0;
-  cout<<'('<<x<<','<<y<<") was approved\n";
+  else if(this->miniMap[x][y]) return 0;
   return 1;
 }

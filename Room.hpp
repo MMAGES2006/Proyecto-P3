@@ -16,7 +16,7 @@ public:
     int x, y;
     int width, height;
     Grid* grid;
-    vector<vector<int>> roomGrid;
+    vector<vector<int>> design;
     Room(RoomType type, int x, int y, Grid* grid); //constructor
 };
 

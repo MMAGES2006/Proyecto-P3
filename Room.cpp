@@ -11,24 +11,25 @@ vector<vector<int>> special2Grid = {{0}};
 vector<vector<int>> special3Grid = {{0}};
 vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
   this->type = type;
+  this->x = x;
+  this->y = y;
   this->grid = grid;
   switch(type)
   {
     case SPAWN:
     {
-      this->roomGrid = spawnGrid;
-      this->x = x + 22;
-      this->y = y + 12;
+      this->design = spawnGrid;
+      
       break;
     }
     case COMBAT:
-      this->roomGrid = combat1Grid;
+      this->design = combat1Grid;
       break;
     case SPECIAL:
-      this->roomGrid = special1Grid;
+      this->design = special1Grid;
       break;
     case EXIT:
-      this->roomGrid = exitGrid;
+      this->design = exitGrid;
       break;
   }
 }

@@ -15,7 +15,7 @@ Entity::Entity(int health, int speed, Texture &texture, bool* playing, Grid* gri
   this->sprite.setScale(0.3*this->grid->changeFactor, 0.35*this->grid->changeFactor);
   this->semiWidth=this->sprite.getGlobalBounds().getSize().x/2;
   this->semiHeight=this->sprite.getGlobalBounds().getSize().y/2;
-  this->sprite.setPosition(x - this->semiWidth, y - this->semiHeight);
+  this->sprite.setPosition(x * this->grid->pixel - this->semiWidth, y * this->grid->pixel - this->semiHeight);
 }
 
 void Entity::drawTo(RenderWindow &window)
