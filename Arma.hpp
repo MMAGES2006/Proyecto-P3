@@ -17,7 +17,7 @@ public:
     Vector2f currVelocity;
     float maxSpeed;
 
-    Arma(float radius = 5.f);
+    Arma(float radius = 5.f, Texture &texture);
 
     Sprite sprite;
     Arma(int damage, int cooldown, int municion, Texture &texture);
