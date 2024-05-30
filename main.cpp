@@ -47,10 +47,12 @@ int main() // Camera 36x20, 50 square pixels
         cout << "Error al cargar imagen" << '\n';
     Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
 
-    Texture pistola;
-    if (!pistola.loadFromFile("sprites/pistolaSF.png"))
+    Texture bala;
+    if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
-    Arma gun(5, 1, 10, pistola);
+    Arma ammo(5, bala);
+    vector<Arma> balas;
+        
 
     Clock timer;
     float time = 100 / fps;
@@ -87,6 +89,10 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
 
+        
+
+        balas.push_back(Arma(ammo));
+
         Vector2f playerCenter;
         Vector2f mousePosWindow;
         Vector2f aimDir;
@@ -108,6 +114,31 @@ int main() // Camera 36x20, 50 square pixels
         }
         grid.drawTo(window);
         player.drawTo(window);
+
+        if(Mouse::isButtonPressed(Mouse::Left))
+        {
+            ammo.sprite.setPosition(playerCenter);
+            ammo.currVelocity = aimDirNorm * ammo.maxSpeed;
+
+            balas.push_back(Arma(ammo)); 
+        }
+
+        for (int i = 0;  i < balas.size(); i++)
+        {
+            balas[i].sprite.move(balas[i].currVelocity); 
+            if (balas[i].sprite.getPosition().x < 0 || balas[i].sprite.getPosition().x > widthMap || balas[i].sprite.getPosition().y < 0 || balas[i].sprite.getPosition().y > height)
+        {
+            balas.erase(balas.begin() + i); 
+            i--; 
+        }
+
+        }
+
+        for (int i = 0; i < balas.size(); i++)
+        {
+            window.draw(balas[i].sprite);
+        }
+
         enemy.drawTo(window);
         window.display();
         time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
