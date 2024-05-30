@@ -97,7 +97,7 @@ int main() // Camera 36x20, 50 square pixels
         float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
         aimDirNorm = aimDir / magnitude;
 
-        cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
+        //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
 
         player.control(time);
         window.clear();
