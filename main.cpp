@@ -51,6 +51,8 @@ int main() // Camera 36x20, 50 square pixels
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
     Arma ammo(5, bala);
+    vector<Arma> balas;
+        
 
     Clock timer;
     float time = 100 / fps;
@@ -87,10 +89,9 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
 
-        Arma b1;
+        
 
-        vector<Arma> balas;
-        balas.push_back(Arma(b1));
+        balas.push_back(Arma(ammo));
 
         Vector2f playerCenter;
         Vector2f mousePosWindow;
@@ -102,7 +103,7 @@ int main() // Camera 36x20, 50 square pixels
         float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
         aimDirNorm = aimDir / magnitude;
 
-        cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
+        //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
 
         player.control(time);
         window.clear();
@@ -113,6 +114,26 @@ int main() // Camera 36x20, 50 square pixels
         }
         grid.drawTo(window);
         player.drawTo(window);
+
+        if(Mouse::isButtonPressed(Mouse::Left))
+        {
+            ammo.sprite.setPosition(playerCenter);
+            ammo.currVelocity = aimDirNorm * ammo.maxSpeed;
+
+            balas.push_back(Arma(ammo)); 
+        }
+
+        for (int i = 0;  i < balas.size(); i++)
+        {
+            balas[i].sprite.move(balas[i].currVelocity); 
+            if (balas[i].sprite.getPosition().x < 0 || balas[i].sprite.getPosition().x > widthMap || balas[i].sprite.getPosition().y < 0 || balas[i].sprite.getPosition().y > height)
+        {
+            balas.erase(balas.begin() + i); 
+            i--; 
+        }
+
+        }
+
         for (int i = 0; i < balas.size(); i++)
         {
             window.draw(balas[i].sprite);
