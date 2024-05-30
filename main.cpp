@@ -50,7 +50,15 @@ int main() // Camera 36x20, 50 square pixels
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
-    Arma ammo(5, bala);
+    // Arma ammo(5, bala);
+    Arma b1(5.f);
+    vector<Arma> balas;
+    balas.push_back(Arma(b1));
+
+    Vector2f playerCenter;
+    Vector2f mousePosWindow;
+    Vector2f aimDir;
+    Vector2f aimDirNorm;
 
     Clock timer;
     float time = 100 / fps;
@@ -87,22 +95,25 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
 
-        Arma b1;
-
-        vector<Arma> balas;
-        balas.push_back(Arma(b1));
-
-        Vector2f playerCenter;
-        Vector2f mousePosWindow;
-        Vector2f aimDir;
-        Vector2f aimDirNorm;
         playerCenter = Vector2f(player.x, player.y);
         mousePosWindow = Vector2f(Mouse::getPosition(window));
         aimDir = mousePosWindow - playerCenter;
         float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
         aimDirNorm = aimDir / magnitude;
 
-        cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
+        // cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
+        if (Mouse::isButtonPressed(Mouse::Left))
+        {
+            b1.bullet.setPosition(playerCenter);
+            b1.currVelocity = aimDirNorm * b1.maxSpeed;
+
+            balas.push_back(Arma(b1));
+        }
+
+        for (size_t i = 0; i < balas.size(); i++)
+        {
+            balas[i].bullet.move(balas[i].currVelocity);
+        }
 
         player.control(time);
         window.clear();
@@ -113,9 +124,10 @@ int main() // Camera 36x20, 50 square pixels
         }
         grid.drawTo(window);
         player.drawTo(window);
-        for (int i = 0; i < balas.size(); i++)
+
+        for (size_t i = 0; i < balas.size(); i++)
         {
-            window.draw(balas[i].sprite);
+            window.draw(balas[i].bullet);
         }
 
         enemy.drawTo(window);
