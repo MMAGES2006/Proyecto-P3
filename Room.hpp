@@ -18,6 +18,7 @@ public:
     Grid* grid;
     vector<vector<int>> design;
     Room(RoomType type, int x, int y, Grid* grid); //constructor
+    void start();
 };
 
 #endif

@@ -20,7 +20,7 @@ void Grid::generateMap()
   srand(time(0));
   
   //mainPath
-  int mainCombatRooms = 4 + (rand() % 4)/3;
+  int mainCombatRooms = 4 + ((rand() % 4)/3);
   int chosenNeighbor;
   int numberNeighbor;
   RoomType fakeMap[4][4];
@@ -28,9 +28,10 @@ void Grid::generateMap()
   int x = rand() % 4, y = rand() % 4;
 
   this->createRoom(x, y, SPAWN);
-  
+  this->currentRoom = {x, y};
   this->spawnX = this->miniMap[x][y]->x;
   this->spawnY = this->miniMap[x][y]->y;
+  
 
   vector<pair<int,int>> neighbors;
   
@@ -113,6 +114,12 @@ void Grid::drawTo(RenderWindow &window)
         window.draw(rect);
         }
     }
+  }
+  if((this->currentRoom.first != this->newRoom.first) || (this->currentRoom.second != this->newRoom.second))
+  {
+    this->currentRoom = this->newRoom;
+    this->map[this->miniMap[this->currentRoom.first][this->currentRoom.second]->x][this->miniMap[this->currentRoom.first][this->currentRoom.second]->y] = 1;
+    cout<<this->currentRoom.first<<this->currentRoom.second<<'\n';
   }
 }
 

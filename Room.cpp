@@ -33,3 +33,11 @@ vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
       break;
   }
 }
+
+void Room::start()
+{
+  if(this->type == COMBAT)
+  {
+    this->grid;
+  }
+}

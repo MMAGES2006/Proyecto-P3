@@ -7,6 +7,7 @@ void Player::control(float time)
 {
     float displacement = this->speed*time;
     updateXY();
+    updateRoom();
     if (Keyboard::isKeyPressed(Keyboard::W)) 
     {
         if(!collisionMap(this->x, this->y - displacement, UP)) sprite.move(0, -displacement);
@@ -23,4 +24,10 @@ void Player::control(float time)
     {
         if(!collisionMap(this->x + displacement, this->y, RIGHT)) sprite.move(displacement, 0);
     }
+}
+
+void Player::updateRoom()
+{
+    this->grid->newRoom.first = (4 * this->x) / (this->grid->pixel * this->grid->cols);
+    this->grid->newRoom.second = (4* this->y) / (this->grid->pixel * this->grid->rows);
 }
