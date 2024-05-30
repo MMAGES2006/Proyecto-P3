@@ -20,6 +20,7 @@ public:
     pair<int, int> currentRoom;
     pair<int, int> newRoom;
     Room* miniMap[4][4];
+    Room* room;
     Grid(int cols, int rows, int pixel, float changeFactor, bool* playing); //constructor
     void generateMap(); //pretende ser una generación procedural del mapa pero esta en pañales
     void drawTo(RenderWindow  &window); //dibuja la matriz

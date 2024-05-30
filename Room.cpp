@@ -1,4 +1,5 @@
 #include "Room.hpp"
+#include "Grid.hpp"
 
 Room::Room(RoomType type, int x, int y, Grid* grid)
 {
@@ -38,6 +39,6 @@ void Room::start()
 {
   if(this->type == COMBAT)
   {
-    this->grid;
+    this->grid->map[this->x][this->y] = 1;
   }
 }

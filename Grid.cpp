@@ -118,7 +118,8 @@ void Grid::drawTo(RenderWindow &window)
   if((this->currentRoom.first != this->newRoom.first) || (this->currentRoom.second != this->newRoom.second))
   {
     this->currentRoom = this->newRoom;
-    this->map[this->miniMap[this->currentRoom.first][this->currentRoom.second]->x][this->miniMap[this->currentRoom.first][this->currentRoom.second]->y] = 1;
+    this->miniMap[this->currentRoom.first][this->currentRoom.second]->start();
+    this->room->start();
     cout<<this->currentRoom.first<<this->currentRoom.second<<'\n';
   }
 }
