@@ -50,7 +50,6 @@ int main() // Camera 36x20, 50 square pixels
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
-<<<<<<< HEAD
     // Arma ammo(5, bala);
     Arma b1(5.f);
     vector<Arma> balas;
@@ -60,12 +59,6 @@ int main() // Camera 36x20, 50 square pixels
     Vector2f mousePosWindow;
     Vector2f aimDir;
     Vector2f aimDirNorm;
-=======
-    Arma ammo(5, bala);
-    vector<Arma> balas;
-        
->>>>>>> 726bcb7b89cf1f85c7b635b3868255715844c066
-
     Clock timer;
     float time = 100 / fps;
     while (window.isOpen())
@@ -101,24 +94,13 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
 
-<<<<<<< HEAD
-=======
-        
 
-        balas.push_back(Arma(ammo));
-
-        Vector2f playerCenter;
-        Vector2f mousePosWindow;
-        Vector2f aimDir;
-        Vector2f aimDirNorm;
->>>>>>> 726bcb7b89cf1f85c7b635b3868255715844c066
         playerCenter = Vector2f(player.x, player.y);
         mousePosWindow = Vector2f(Mouse::getPosition(window));
         aimDir = mousePosWindow - playerCenter;
         float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
         aimDirNorm = aimDir / magnitude;
 
-<<<<<<< HEAD
         // cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
         if (Mouse::isButtonPressed(Mouse::Left))
         {
@@ -132,9 +114,7 @@ int main() // Camera 36x20, 50 square pixels
         {
             balas[i].bullet.move(balas[i].currVelocity);
         }
-=======
         //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
->>>>>>> 726bcb7b89cf1f85c7b635b3868255715844c066
 
         player.control(time);
         window.clear();
@@ -146,30 +126,7 @@ int main() // Camera 36x20, 50 square pixels
         grid.drawTo(window);
         player.drawTo(window);
 
-<<<<<<< HEAD
         for (size_t i = 0; i < balas.size(); i++)
-=======
-        if(Mouse::isButtonPressed(Mouse::Left))
-        {
-            ammo.sprite.setPosition(playerCenter);
-            ammo.currVelocity = aimDirNorm * ammo.maxSpeed;
-
-            balas.push_back(Arma(ammo)); 
-        }
-
-        for (int i = 0;  i < balas.size(); i++)
-        {
-            balas[i].sprite.move(balas[i].currVelocity); 
-            if (balas[i].sprite.getPosition().x < 0 || balas[i].sprite.getPosition().x > widthMap || balas[i].sprite.getPosition().y < 0 || balas[i].sprite.getPosition().y > height)
-        {
-            balas.erase(balas.begin() + i); 
-            i--; 
-        }
-
-        }
-
-        for (int i = 0; i < balas.size(); i++)
->>>>>>> 726bcb7b89cf1f85c7b635b3868255715844c066
         {
             window.draw(balas[i].bullet);
         }
