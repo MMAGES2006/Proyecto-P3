@@ -5,6 +5,7 @@
 #include "Arma.hpp"
 #include <iostream>
 #include <math.h>
+#include <cstdlib>
 
 using namespace std;
 using namespace sf;
@@ -21,6 +22,7 @@ int main() // Camera 36x20, 50 square pixels
     int widthCamera = 1800;
     float changeFactor = (float)pixel / (float)pixelCamera;
     int speed = 5;
+    srand(time(NULL)); 
 
     bool mousePressed = false;
     bool playing = 0; // booleano que contiene si se esta "jugando" o no
@@ -46,6 +48,19 @@ int main() // Camera 36x20, 50 square pixels
     if (!slime.loadFromFile("sprites/slimeSF.png"))
         cout << "Error al cargar imagen" << '\n';
     Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
+    vector<Enemy> enemigos; 
+    int spawnCounter = 5; 
+
+    if(spawnCounter < 5)
+    {
+        spawnCounter++;
+    }
+    
+    if(spawnCounter >=20)
+    {
+        enemigos.push_back(Enemy(enemy)); 
+        spawnCounter = 0; 
+    }
 
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
@@ -53,7 +68,6 @@ int main() // Camera 36x20, 50 square pixels
     // Arma ammo(5, bala);
     Arma b1(5.f);
     vector<Arma> balas;
-    balas.push_back(Arma(b1));
 
     Vector2f playerCenter;
     Vector2f mousePosWindow;
@@ -94,7 +108,6 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
 
-
         playerCenter = Vector2f(player.x, player.y);
         mousePosWindow = Vector2f(Mouse::getPosition(window));
         aimDir = mousePosWindow - playerCenter;
@@ -113,6 +126,11 @@ int main() // Camera 36x20, 50 square pixels
         for (size_t i = 0; i < balas.size(); i++)
         {
             balas[i].bullet.move(balas[i].currVelocity);
+
+            if (balas[i].bullet.getPosition().x < 0 || balas[i].bullet.getPosition().x > window.getSize().x || balas[i].bullet.getPosition().y < 0 || balas[i].bullet.getPosition().y > window.getSize().y)
+            {
+                balas.erase(balas.begin() + i); 
+            }
         }
         //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
 
@@ -123,6 +141,11 @@ int main() // Camera 36x20, 50 square pixels
             camera.setCenter(player.x, player.y);
             window.setView(camera);
         }
+        for (int j = 0; j < enemigos.size(); j++)
+        {
+            enemigos.drawTo(window); 
+        }
+        
         grid.drawTo(window);
         player.drawTo(window);
 
@@ -130,8 +153,6 @@ int main() // Camera 36x20, 50 square pixels
         {
             window.draw(balas[i].bullet);
         }
-
-        enemy.drawTo(window);
         window.display();
         time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
     }

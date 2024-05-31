@@ -8,3 +8,12 @@ Enemy::Enemy(int health, int speed, Texture &texture, bool *playing, Grid *grid,
 void Enemy::seguirJugador()
 {
 }
+
+void Enemy::setPosition()
+{
+    
+}
+void Enemy::drawTo(RenderWindow &window)
+{
+  window.draw(this->sprite);
+}

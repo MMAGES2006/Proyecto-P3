@@ -13,6 +13,9 @@ public:
     Enemy(int health, int speed, Texture &texture, bool *playing, Grid *grid, int x, int y); // constructor
 
     void seguirJugador();
+    void setPosition();
+    void drawTo(RenderWindow  &window); //dibuja el sprite
+
 
     Enemy();
     Player *player;
