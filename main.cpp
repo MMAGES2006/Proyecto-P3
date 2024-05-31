@@ -143,7 +143,6 @@ int main() // Camera 36x20, 50 square pixels
         }
         for (int j = 0; j < enemigos.size(); j++)
         {
-            enemigos.drawTo(window); 
         }
         
         grid.drawTo(window);
