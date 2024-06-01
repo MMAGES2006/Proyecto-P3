@@ -1,5 +1,6 @@
 #include "Room.hpp"
 #include "Grid.hpp"
+#include "Entity.hpp"
 
 Room::Room(RoomType type, int x, int y, Grid* grid)
 {
@@ -12,9 +13,12 @@ vector<vector<int>> special2Grid = {{0}};
 vector<vector<int>> special3Grid = {{0}};
 vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
   this->type = type;
+  this->grid = grid;
   this->x = x;
   this->y = y;
-  this->grid = grid;
+  this->centerX = (x * this->grid->cols / 4) + (this->grid->cols / 8);
+  this->centerY = (y * this->grid->rows / 4) + (this->grid->rows / 8);
+  this->visited = 0;
   switch(type)
   {
     case SPAWN:
@@ -37,8 +41,24 @@ vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
 
 void Room::start()
 {
+  if(!this->visited)
+  {
+    //this->grid->map[this->centerX][this->centerY] = 1;
+    if(this->type == COMBAT)
+    {
+      Entity* entity = new Entity(5, 3, this->grid->textures[1], this->grid->playing, this->grid, this->centerX, this->centerY);
+      this->entities.push_back(entity);
+    }
+  }
+}
+
+void Room::update(RenderWindow &window)
+{
   if(this->type == COMBAT)
   {
-    this->grid->map[this->x][this->y] = 1;
+    for(int i = 0; i < this->entities.size(); i++)
+    {
+      this->entities[i]->drawTo(window);
+    }
   }
 }

@@ -36,17 +36,22 @@ int main() // Camera 36x20, 50 square pixels
     Vector2i mapPosition = window.getPosition();
     Vector2i cameraPostion = mapPosition + Vector2i((widthMap - widthCamera) / 2, 0);
     window.setFramerateLimit(fps);
-    Grid grid(cols, rows, pixel, changeFactor, &playing);
-
+    
     // Sprites
+    vector<Texture> textures;
     Texture monkey;
     if (!monkey.loadFromFile("sprites/P1.png"))
         cout << "Error al cargar imagen" << '\n';
-    Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
-
+    textures.push_back(monkey);
     Texture slime;
     if (!slime.loadFromFile("sprites/slimeSF.png"))
         cout << "Error al cargar imagen" << '\n';
+    textures.push_back(slime);
+
+    Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
+
+    
+    Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
     vector<Enemy> enemigos; 
     int spawnCounter = 5; 
@@ -135,6 +140,7 @@ int main() // Camera 36x20, 50 square pixels
         //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
 
         player.control(time);
+        enemy.goTo(player.x, player.y, time);
         window.clear();
         if (playing)
         {
@@ -147,6 +153,8 @@ int main() // Camera 36x20, 50 square pixels
         
         grid.drawTo(window);
         player.drawTo(window);
+        enemy.drawTo(window);
+        grid.activeRoom->update(window);
 
         for (size_t i = 0; i < balas.size(); i++)
         {
