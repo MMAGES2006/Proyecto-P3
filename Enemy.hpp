@@ -15,7 +15,6 @@ public:
     void goTo(float targetX, float targetY, float time);
     void drawTo(RenderWindow  &window); //dibuja el sprite
 
-
     Enemy();
     Player *player;
 };
