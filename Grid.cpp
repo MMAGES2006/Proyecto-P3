@@ -1,12 +1,13 @@
 #include "Grid.hpp"
 
-Grid::Grid(int cols, int rows, int pixel, float changeFactor, bool* playing)
+Grid::Grid(int cols, int rows, int pixel, float changeFactor, bool* playing, vector<Texture> &textures)
 {
   this->cols = cols;
   this->rows = rows;
   this->pixel = pixel;
   this->changeFactor = changeFactor;
   this->playing = playing;
+  this->textures = textures;
   for(int i=0; i<4; i++)
   {
     for(int j=0; j<4; j++) this->miniMap[i][j] = NULL;
@@ -28,9 +29,9 @@ void Grid::generateMap()
   int x = rand() % 4, y = rand() % 4;
 
   this->createRoom(x, y, SPAWN);
-  this->currentRoom = {x, y};
-  this->spawnX = this->miniMap[x][y]->x;
-  this->spawnY = this->miniMap[x][y]->y;
+  this->activeRoom = this->miniMap[x][y];
+  this->spawnX = this->miniMap[x][y]->centerX;
+  this->spawnY = this->miniMap[x][y]->centerY;
   
 
   vector<pair<int,int>> neighbors;
@@ -115,12 +116,14 @@ void Grid::drawTo(RenderWindow &window)
         }
     }
   }
-  if((this->currentRoom.first != this->newRoom.first) || (this->currentRoom.second != this->newRoom.second))
+  if((this->activeRoom->x != this->newRoom.first) || (this->activeRoom->y != this->newRoom.second))
   {
-    this->currentRoom = this->newRoom;
-    this->miniMap[this->currentRoom.first][this->currentRoom.second]->start();
-    this->room->start();
-    cout<<this->currentRoom.first<<this->currentRoom.second<<'\n';
+    if(this->miniMap[this->newRoom.first][this->newRoom.second])
+    {
+      this->activeRoom = this->miniMap[this->newRoom.first][this->newRoom.second];
+      this->activeRoom->start();
+    }
+    cout<<this->newRoom.first<<this->newRoom.second<<'\n';
   }
 }
 
@@ -214,7 +217,7 @@ void Grid::createRoom(int x, int y, RoomType type)
   int cellHeight = this->rows / 4;
   int positionX = cellWidth * x; 
   int positionY = cellHeight * y;
-  Room* room = new Room(type, positionX + cellWidth/2, positionY + cellHeight/2, this);
+  Room* room = new Room(type, x, y, this);
   this->miniMap[x][y] = room;
   for(int i = 0; i < cellWidth; i++)
   {
@@ -239,6 +242,6 @@ bool Grid::enoughLenght(int x, int y, int lenght, RoomType fakeMap[4][4])
 bool Grid::potentialRoom(int x, int y)
 {
   if((x < 0) || (y < 0) || (x > 3) || (y > 3)) return 0;
-  else if(this->miniMap[x][y]) return 0;
+  if(this->miniMap[x][y]) return 0;
   return 1;
 }

@@ -5,14 +5,22 @@ Enemy::Enemy(int health, int speed, Texture &texture, bool *playing, Grid *grid,
 {
 }
 
-void Enemy::seguirJugador()
+void Enemy::goTo(float targetX, float targetY, float time)
 {
+  float displacementX = targetX - this->x;
+  float displacementY = targetY - this->y;
+  float magnitude = sqrt(pow(displacementX, 2) + pow(displacementY, 2));
+  if(magnitude > 0)
+  {
+    displacementX /= magnitude;
+    displacementY /= magnitude;
+    displacementX *= this->speed * time;
+    displacementY *= this->speed * time;
+    this->sprite.move(displacementX, displacementY);
+  }
+  this->updateXY();
 }
 
-void Enemy::setPosition()
-{
-    
-}
 void Enemy::drawTo(RenderWindow &window)
 {
   window.draw(this->sprite);

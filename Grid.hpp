@@ -16,12 +16,12 @@ public:
     int cols, rows, pixel; //esta es una constante que se usa para que al hacer zoom (cuando la camara te sigue) los tamaños que se muestran en pantalla coincidan con los valores asignados
     float changeFactor;
     bool* playing; //es un booleano que es verdadero si se esta jugando, falso sino
+    vector<Texture> textures;
     int spawnX, spawnY;
-    pair<int, int> currentRoom;
     pair<int, int> newRoom;
     Room* miniMap[4][4];
-    Room* room;
-    Grid(int cols, int rows, int pixel, float changeFactor, bool* playing); //constructor
+    Room* activeRoom;
+    Grid(int cols, int rows, int pixel, float changeFactor, bool* playing, vector<Texture> &textures); //constructor
     void generateMap(); //pretende ser una generación procedural del mapa pero esta en pañales
     void drawTo(RenderWindow  &window); //dibuja la matriz
     int identifyMap(float x, float y); //regresa el valor de la celda de la matriz con coordenadas x, y, se esta usando para detectar colisión
