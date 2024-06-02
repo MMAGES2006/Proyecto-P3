@@ -13,7 +13,6 @@ public:
     Enemy(int health, int speed, Texture &texture, bool *playing, Grid *grid, int x, int y); // constructor
 
     void goTo(float targetX, float targetY, float time);
-    void drawTo(RenderWindow  &window); //dibuja el sprite
 
     Enemy();
     Player *player;

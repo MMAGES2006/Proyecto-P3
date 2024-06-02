@@ -21,7 +21,3 @@ void Enemy::goTo(float targetX, float targetY, float time)
   this->updateXY();
 }
 
-void Enemy::drawTo(RenderWindow &window)
-{
-  window.draw(this->sprite);
-}

@@ -17,9 +17,7 @@ Grid::Grid(int cols, int rows, int pixel, float changeFactor, bool* playing, vec
 }
 
 void Grid::generateMap()
-{
-  srand(time(0));
-  
+{  
   //mainPath
   int mainCombatRooms = 4 + ((rand() % 4)/3);
   int chosenNeighbor;
@@ -163,13 +161,10 @@ void Grid::generateExtra(RoomType type)
       {
         if(this->miniMap[i][j])
         { 
-          /*if(this->miniMap[i][j]->type == COMBAT)
-          {*/
           if(this->potentialRoom(i, j-1)) evaluationMap[i][j-1] = 1;
           if(this->potentialRoom(i-1, j)) evaluationMap[i-1][j] = 1;
           if(this->potentialRoom(i+1, j)) evaluationMap[i+1][j] = 1;
           if(this->potentialRoom(i, j+1)) evaluationMap[i][j+1] = 1;
-          //}
         }
       }
     }    

@@ -76,10 +76,10 @@ int main() // Camera 36x20, 50 square pixels
         spawnCounter = 0; 
     }
 
+    
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
-    // Arma ammo(5, bala);
     Arma b1(5.f);
     vector<Arma> balas;
 

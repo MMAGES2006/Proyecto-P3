@@ -1,6 +1,6 @@
 #include "Room.hpp"
 #include "Grid.hpp"
-#include "Entity.hpp"
+#include "Enemy.hpp"
 
 Room::Room(RoomType type, int x, int y, Grid* grid)
 {
@@ -16,8 +16,10 @@ vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
   this->grid = grid;
   this->x = x;
   this->y = y;
-  this->centerX = (x * this->grid->cols / 4) + (this->grid->cols / 8);
-  this->centerY = (y * this->grid->rows / 4) + (this->grid->rows / 8);
+  this->cornerX = x * this->grid->cols / 4;
+  this->cornerY = y * this->grid->rows / 4;
+  this->centerX = this->cornerX + (this->grid->cols / 8);
+  this->centerY = this->cornerY + (this->grid->rows / 8);
   this->visited = 0;
   switch(type)
   {
@@ -41,18 +43,53 @@ vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
 
 void Room::start()
 {
-  if(!this->visited)
-  {
+  if(this->visited) return;
     //this->grid->map[this->centerX][this->centerY] = 1;
-    if(this->type == COMBAT)
+  switch(type)
+  {
+    case SPAWN:
+      
+      
+      break;
+    case COMBAT:
+      {
+        int slimes = rand() % 5 + 5;
+        int spawnX;
+        int spawnY;
+        for(int i = 0; i < slimes; i++)
+        {
+          spawnX = cornerX + (rand() % (this->grid->cols / 4));
+          spawnY = cornerY + (rand() % (this->grid->rows / 4));
+          this->entities.push_back(new Enemy(5, 3, this->grid->textures[1], this->grid->playing, this->grid, spawnX, spawnY));
+        }
+        //Enemy* entity = new Enemy(5, 3, this->grid->textures[1], this->grid->playing, this->grid, this->centerX, this->centerY);
+        //this->entities.push_back(entity);
+        break;
+      }
+    case SPECIAL:
+      
+      break;
+    case EXIT:
+      
+      break;
+  }
+  this->visited = 1;
+}
+
+
+void Room::update(float playerX, float playerY, float time)
+{
+  if(this->type == COMBAT)
+  {
+    for(int i = 0; i < this->entities.size(); i++)
     {
-      Entity* entity = new Entity(5, 3, this->grid->textures[1], this->grid->playing, this->grid, this->centerX, this->centerY);
-      this->entities.push_back(entity);
+      this->entities[i]->goTo(playerX, playerY, time);
     }
   }
 }
 
-void Room::update(RenderWindow &window)
+
+void Room::drawTo(RenderWindow &window)
 {
   if(this->type == COMBAT)
   {
