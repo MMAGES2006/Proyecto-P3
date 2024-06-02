@@ -199,6 +199,11 @@ int main() // Camera 36x20, 50 square pixels
                             }
                             window.display();
                             time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
+
+                            if(event.key.code  == Keyboard::Escape)
+                            {
+                                window.close();
+                            }
                         }
                     }
                     else if (mun == 1)
