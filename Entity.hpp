@@ -7,6 +7,7 @@ using namespace sf;
 using namespace std;
 
 enum Direction{UP, LEFT, DOWN, RIGHT, NONE};
+class Arma;
 
 class Entity
 {
@@ -18,6 +19,7 @@ public:
     bool* playing; //es un booleano que es verdadero si se esta jugando, falso sino
     vector<bool> hitbox;
     Grid* grid;
+    Arma* gun;
     Sprite sprite;
     Entity(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y); //constructor
     void drawTo(RenderWindow  &window); //dibuja el sprite

@@ -7,6 +7,7 @@ using namespace std;
 
 enum RoomType{SPAWN, COMBAT, SPECIAL, EXIT, VOID};
 class Grid;
+class Entity;
 class Enemy;
 class Room
 {
@@ -20,7 +21,8 @@ public:
     bool visited;
     Grid* grid;
     vector<vector<int>> design;
-    vector<Enemy*> entities;
+    vector<Entity*> entities;
+    vector<Enemy*> enemies;
     Room(RoomType type, int x, int y, Grid* grid); //constructor
     void start();
     void update(float playerX, float playerY, float time);

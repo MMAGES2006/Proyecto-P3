@@ -56,13 +56,13 @@ int main() // Camera 36x20, 50 square pixels
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
     // Arma ammo(5, bala);
-    Arma b1(5.f);
+   /* Arma b1(5.f);
     vector<Arma> balas;
 
     Vector2f playerCenter;
     Vector2f mousePosWindow;
     Vector2f aimDir;
-    Vector2f aimDirNorm;
+    Vector2f aimDirNorm;*/
     Clock timer;
     float time = 100 / fps;
     while (window.isOpen())
@@ -97,7 +97,7 @@ int main() // Camera 36x20, 50 square pixels
                 }
             }
         }
-
+        /*
         playerCenter = playing ? Vector2f(widthCamera/2, height/2) : Vector2f(player.x, player.y);
         mousePosWindow = Vector2f(Mouse::getPosition(window));
         //if(playing) mousePosWindow *= changeFactor;
@@ -124,24 +124,27 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
         //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
-
-        player.control(time);
+         */
+        
+        player.control(window, time);
         grid.activeRoom->update(player.x, player.y, time);
+
         window.clear();
+
         if (playing)
         {
             camera.setCenter(player.x, player.y);
             window.setView(camera);
         }
-        
+
         grid.drawTo(window);
         player.drawTo(window);
         grid.activeRoom->drawTo(window);
-
+/*
         for (size_t i = 0; i < balas.size(); i++)
         {
             window.draw(balas[i].bullet);
-        }
+        } */
         window.display();
         time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
     }

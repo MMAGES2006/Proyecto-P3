@@ -1,4 +1,5 @@
 #include "Entity.hpp"
+#include "Arma.hpp"
 
 Entity::Entity(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y)
 {
@@ -16,11 +17,13 @@ Entity::Entity(int health, int speed, Texture &texture, bool* playing, Grid* gri
   this->semiWidth=this->sprite.getGlobalBounds().getSize().x/2;
   this->semiHeight=this->sprite.getGlobalBounds().getSize().y/2;
   this->sprite.setPosition(x * this->grid->pixel - this->semiWidth, y * this->grid->pixel - this->semiHeight);
+  this->gun = NULL;
 }
 
 void Entity::drawTo(RenderWindow &window)
 {
   window.draw(this->sprite);
+  if(this->gun) this->gun->drawTo(window);
 }
 
 void Entity::update()

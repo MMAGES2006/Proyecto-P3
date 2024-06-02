@@ -60,7 +60,7 @@ void Room::start()
         {
           spawnX = cornerX + (rand() % (this->grid->cols / 4));
           spawnY = cornerY + (rand() % (this->grid->rows / 4));
-          this->entities.push_back(new Enemy(5, 3, this->grid->textures[1], this->grid->playing, this->grid, spawnX, spawnY));
+          this->enemies.push_back(new Enemy(5, 3, this->grid->textures[1], this->grid->playing, this->grid, spawnX, spawnY));
         }
         //Enemy* entity = new Enemy(5, 3, this->grid->textures[1], this->grid->playing, this->grid, this->centerX, this->centerY);
         //this->entities.push_back(entity);
@@ -81,9 +81,9 @@ void Room::update(float playerX, float playerY, float time)
 {
   if(this->type == COMBAT)
   {
-    for(int i = 0; i < this->entities.size(); i++)
+    for(int i = 0; i < this->enemies.size(); i++)
     {
-      this->entities[i]->goTo(playerX, playerY, time);
+      this->enemies[i]->goTo(playerX, playerY, time);
     }
   }
 }
@@ -93,9 +93,7 @@ void Room::drawTo(RenderWindow &window)
 {
   if(this->type == COMBAT)
   {
-    for(int i = 0; i < this->entities.size(); i++)
-    {
-      this->entities[i]->drawTo(window);
-    }
+    for(int i = 0; i < this->enemies.size(); i++)
+      this->enemies[i]->drawTo(window);
   }
 }
