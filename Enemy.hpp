@@ -14,7 +14,6 @@ public:
 
     void goTo(float targetX, float targetY, float time);
 
-
     Enemy();
     Player *player;
 };
