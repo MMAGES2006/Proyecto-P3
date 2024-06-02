@@ -1,21 +1,21 @@
 #include "Arma.hpp"
 
-Arma::Arma(int damage, int cooldown, int municion, Texture &texture)
+/*Arma::Arma(int damage, int cooldown, int municion, Texture &texture)
 {
 }
-
-Arma::Arma(int damage, int cooldown, int municion, float bulletRadius, float maxSpeed, Entity* owner)
+*/
+Arma::Arma(int damage, int cooldown, int municion, float bulletRadius, float speed, Entity* owner)
 {
   this->damage = damage;
   this->cooldown = cooldown;
   this->timer = 0;
   this->municion = municion;
   this->bulletRadius = bulletRadius;
-  this->maxSpeed = maxSpeed;
+  this->speed = speed;
   this->owner = owner;
 }
 
-
+/*
 Arma::Arma(float radius) : currVelocity(0.f, 0.f), maxSpeed(15.f)
 {
     this->bullet.setRadius(radius);
@@ -26,19 +26,18 @@ Arma::Arma(float radius) : currVelocity(0.f, 0.f), maxSpeed(15.f)
     // this->sprite.setTextureRect(IntRect(0, 0, 500, 500));
     // this->sprite.setScale(0.3, 0.35);
 }
+*/
 
 void Arma::atacar()
 {
 }
 
-void Arma::fire(RenderWindow  &window)
+void Arma::fire(Vector2f targetPosition, Vector2f origin)
 {
   if(this->timer > 0) return;
   this->timer = this->cooldown; 
   CircleShape sprite;
-  Vector2f ownerPosition = *this->owner->playing ? Vector2f(900, 500) : Vector2f(this->owner->x, this->owner->y);
-  Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
-  Vector2f direction = mousePosition - ownerPosition;
+  Vector2f direction = targetPosition - origin;
   float magnitude = sqrt(pow(direction.x, 2) + pow(direction.y, 2));
   direction /= magnitude;
   sprite.setRadius(this->bulletRadius);
@@ -52,7 +51,7 @@ void Arma::update(float time)
   if(this->timer > 0) this->timer -= time;
   for (int i = 0; i < bullets.size(); i++)
   {
-    bullets[i].sprite.move(bullets[i].direction * this->maxSpeed * time);
+    bullets[i].sprite.move(bullets[i].direction * this->speed * time);
     if (bullets[i].sprite.getPosition().x < 0 || bullets[i].sprite.getPosition().x > 1800 || bullets[i].sprite.getPosition().y < 0 || bullets[i].sprite.getPosition().y > 1000)
       bullets.erase(bullets.begin()+i);
   }

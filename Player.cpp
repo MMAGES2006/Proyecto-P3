@@ -28,9 +28,10 @@ void Player::control(RenderWindow &window, float time)
   {
     if(!collisionMap(this->x + displacement, this->y, RIGHT)) sprite.move(displacement, 0);
   }
-  if (Mouse::isButtonPressed(Mouse::Left))
+  if (Mouse::isButtonPressed(Mouse::Left)) 
   {
-    this->gun->fire(window);
+    if(*(this->playing)) this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(900, 500));
+    else this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(this->x, this->y)); 
   }
   this->gun->update(time);
 }

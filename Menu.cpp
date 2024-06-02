@@ -44,32 +44,20 @@ void Menu::dibujar(RenderWindow &window)
 
 void Menu::moveUp()
 {
-    if(menuSelected - 1 >= 0)
-    {
-        mainMenu[menuSelected].setFillColor(Color::Black);
-
-        menuSelected--; 
-        if(menuSelected == -1)
-        {
-            menuSelected = 3; 
-        }
-        mainMenu[menuSelected].setFillColor(Color::Blue);
-    }
+    if(menuSelected < 0) menuSelected = 0;
+    mainMenu[menuSelected].setFillColor(Color::Black);
+    menuSelected--; 
+    if(menuSelected < 0) menuSelected = 3; 
+    mainMenu[menuSelected].setFillColor(Color::Blue);
 }
 
 void Menu::moveDown()
 {
-    if(menuSelected + 1 <= Max_main_Menu)
-    {
-        mainMenu[menuSelected].setFillColor(Color::Black);
-
-        menuSelected++; 
-        if(menuSelected == 4)
-        {
-            menuSelected = 0; 
-        }
-        mainMenu[menuSelected].setFillColor(Color::Blue);
-    }
+    if(menuSelected > 3) menuSelected = 3;
+    mainMenu[menuSelected].setFillColor(Color::Black);
+    menuSelected++; 
+    if(menuSelected > 3) menuSelected = 0; 
+    mainMenu[menuSelected].setFillColor(Color::Blue);
 }
 
 int Menu::menuPressed()

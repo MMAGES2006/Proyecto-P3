@@ -133,9 +133,12 @@ int main() // Camera 36x20, 50 square pixels
                                     }
                                 }
                             }
-
-                            player.control(window, time);
-                            grid.activeRoom->update(player.x, player.y, time);
+                            
+                            /*if(playing)
+                            {*/
+                              player.control(window, time);
+                              grid.activeRoom->update(player.x, player.y, time);
+                           // }
 
                             window.clear();
 

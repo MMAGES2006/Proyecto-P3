@@ -24,16 +24,16 @@ public:
     CircleShape bullet;
     vector<Bullet> bullets;
     Vector2f currVelocity;
-    float maxSpeed;
-    Arma(float radius);
+    float speed;
+    //Arma(float radius);
 
     Sprite sprite;
-    Arma(int damage, int cooldown, int municion, Texture &texture);
+    //Arma(int damage, int cooldown, int municion, Texture &texture);
     
-    Arma(int damage, int cooldown, int municion, float bulletRadius, float maxSpeed, Entity* owner);
+    Arma(int damage, int cooldown, int municion, float bulletRadius, float speed, Entity* owner);
 
     void atacar();   // para melee.
-    void fire(RenderWindow &window); // Armas de fuego.
+    void fire(Vector2f targetPosition, Vector2f origin); // Armas de fuego.
     void efecto();   // Esta todavia no me decido si tendran efectos las armas, asi que queda por si acaso.
     void update(float time);
     void drawTo(RenderWindow  &window);
