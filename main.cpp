@@ -102,9 +102,16 @@ int main() // Camera 36x20, 50 square pixels
 
             if(event.type == Event::KeyPressed)
             {
+                if(event.key.code == Keyboard::Up)
+                {
+                    Menu.moveUp(); 
+                    break;
+                }
+
                 if(event.key.code == Keyboard::Down)
                 {
                     Menu.moveDown(); 
+                    break;
                 }
 
                 if(event.key.code == Keyboard::Return)
@@ -113,6 +120,8 @@ int main() // Camera 36x20, 50 square pixels
 
                     if (mun == 0)
                     {
+                        mainMENU.close(); 
+
                         while (window.isOpen())
                         {
                             Event event;
@@ -182,7 +191,7 @@ int main() // Camera 36x20, 50 square pixels
                             grid.drawTo(window);
                             player.drawTo(window);
                             enemy.drawTo(window);
-                            grid.activeRoom->update(window);
+                            grid.activeRoom->drawTo(window);
 
                             for (size_t i = 0; i < balas.size(); i++)
                             {
