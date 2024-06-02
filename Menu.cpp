@@ -8,25 +8,25 @@ Menu::Menu(float ancho, float alto)
     }
 
     mainMenu[0].setFont(font);    
-    mainMenu[0].setFillColor(Color::Black);
+    mainMenu[0].setFillColor(Color::White);
     mainMenu[0].setString("Play");
     mainMenu[0].setCharacterSize(70);
     mainMenu[0].setPosition(400, 200);
 
     mainMenu[1].setFont(font);    
-    mainMenu[1].setFillColor(Color::Black);
+    mainMenu[1].setFillColor(Color::White);
     mainMenu[1].setString("Options");
     mainMenu[1].setCharacterSize(70);
     mainMenu[1].setPosition(400, 300);
 
     mainMenu[2].setFont(font);    
-    mainMenu[2].setFillColor(Color::Black);
+    mainMenu[2].setFillColor(Color::White);
     mainMenu[2].setString("About");
     mainMenu[2].setCharacterSize(70);
     mainMenu[2].setPosition(400, 400);
 
     mainMenu[3].setFont(font);    
-    mainMenu[3].setFillColor(Color::Black);
+    mainMenu[3].setFillColor(Color::White);
     mainMenu[3].setString("Exit");
     mainMenu[3].setCharacterSize(70);
     mainMenu[3].setPosition(400, 500);
@@ -46,14 +46,14 @@ void Menu::moveUp()
 {
     if(menuSelected - 1 >= 0)
     {
-        mainMenu[menuSelected].setFillColor(Color::Black);
+        mainMenu[menuSelected].setFillColor(Color::White);
 
         menuSelected--; 
         if(menuSelected == -1)
         {
             menuSelected = 3; 
         }
-        mainMenu[menuSelected].setFillColor(Color::Blue);
+        mainMenu[menuSelected].setFillColor(Color::Green);
     }
 }
 
@@ -61,14 +61,14 @@ void Menu::moveDown()
 {
     if(menuSelected + 1 <= Max_main_Menu)
     {
-        mainMenu[menuSelected].setFillColor(Color::Black);
+        mainMenu[menuSelected].setFillColor(Color::White);
 
         menuSelected++; 
         if(menuSelected == 4)
         {
             menuSelected = 0; 
         }
-        mainMenu[menuSelected].setFillColor(Color::Blue);
+        mainMenu[menuSelected].setFillColor(Color::Green);
     }
 }
 

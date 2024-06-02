@@ -43,7 +43,7 @@ int main() // Camera 36x20, 50 square pixels
     RectangleShape fondo; 
     fondo.setSize(Vector2f(960, 720)); 
     Texture ftexture; 
-    if (!ftexture.loadFromFile("sprites/fondomenu.png"))
+    if (!ftexture.loadFromFile("sprites/fondomenu .png"))
         cout << "Error al cargar imagen" << '\n'; 
     fondo.setTexture(&ftexture); 
 
@@ -61,22 +61,20 @@ int main() // Camera 36x20, 50 square pixels
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
+    
     Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
     vector<Enemy> enemigos; 
     int spawnCounter = 5; 
-
     if(spawnCounter < 5)
     {
         spawnCounter++;
     }
-    
     if(spawnCounter >=20)
     {
         enemigos.push_back(Enemy(enemy)); 
         spawnCounter = 0; 
     }
-
-    
+   
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
