@@ -61,32 +61,11 @@ int main() // Camera 36x20, 50 square pixels
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
-    Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
-    vector<Enemy> enemigos; 
-    int spawnCounter = 5; 
-
-    if(spawnCounter < 5)
-    {
-        spawnCounter++;
-    }
-    
-    if(spawnCounter >=20)
-    {
-        enemigos.push_back(Enemy(enemy)); 
-        spawnCounter = 0; 
-    }
-
     
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
-    Arma b1(5.f);
-    vector<Arma> balas;
-
-    Vector2f playerCenter;
-    Vector2f mousePosWindow;
-    Vector2f aimDir;
-    Vector2f aimDirNorm;
+   
     Clock timer;
     float time = 100 / fps;
 
@@ -155,48 +134,21 @@ int main() // Camera 36x20, 50 square pixels
                                 }
                             }
 
-                            playerCenter = Vector2f(player.x, player.y);
-                            mousePosWindow = Vector2f(Mouse::getPosition(window));
-                            aimDir = mousePosWindow - playerCenter;
-                            float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
-                            aimDirNorm = aimDir / magnitude;
+                            player.control(window, time);
+                            grid.activeRoom->update(player.x, player.y, time);
 
-                            if (Mouse::isButtonPressed(Mouse::Left))
-                            {
-                                b1.bullet.setPosition(playerCenter);
-                                b1.currVelocity = aimDirNorm * b1.maxSpeed;
-
-                                balas.push_back(Arma(b1));
-                            }
-
-                            for (size_t i = 0; i < balas.size(); i++)
-                            {
-                                balas[i].bullet.move(balas[i].currVelocity);
-
-                                if (balas[i].bullet.getPosition().x < 0 || balas[i].bullet.getPosition().x > window.getSize().x || balas[i].bullet.getPosition().y < 0 || balas[i].bullet.getPosition().y > window.getSize().y)
-                                {
-                                    balas.erase(balas.begin() + i); 
-                                }
-                            }
-
-                            player.control(time);
-                            enemy.goTo(player.x, player.y, time);
                             window.clear();
+
                             if (playing)
                             {
-                                camera.setCenter(player.x, player.y);
-                                window.setView(camera);
+                              camera.setCenter(player.x, player.y);
+                              window.setView(camera);
                             }
 
                             grid.drawTo(window);
                             player.drawTo(window);
-                            enemy.drawTo(window);
                             grid.activeRoom->drawTo(window);
 
-                            for (size_t i = 0; i < balas.size(); i++)
-                            {
-                                window.draw(balas[i].bullet);
-                            }
                             window.display();
                             time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
 
