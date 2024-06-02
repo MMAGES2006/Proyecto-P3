@@ -1,0 +1,82 @@
+#include "Menu.hpp"
+
+Menu::Menu(float ancho, float alto)
+{
+    if(!font.loadFromFile("fonts/Times New Romance.ttf"))
+    {
+        cout << "No font is here"; 
+    }
+
+    mainMenu[0].setFont(font);    
+    mainMenu[0].setFillColor(Color::White);
+    mainMenu[0].setString("Play");
+    mainMenu[0].setCharacterSize(70);
+    mainMenu[0].setPosition(400, 200);
+
+    mainMenu[0].setFont(font);    
+    mainMenu[0].setFillColor(Color::White);
+    mainMenu[0].setString("Options");
+    mainMenu[0].setCharacterSize(70);
+    mainMenu[0].setPosition(400, 300);
+
+    mainMenu[0].setFont(font);    
+    mainMenu[0].setFillColor(Color::White);
+    mainMenu[0].setString("About");
+    mainMenu[0].setCharacterSize(70);
+    mainMenu[0].setPosition(400, 400);
+
+    mainMenu[0].setFont(font);    
+    mainMenu[0].setFillColor(Color::White);
+    mainMenu[0].setString("Exit");
+    mainMenu[0].setCharacterSize(70);
+    mainMenu[0].setPosition(400, 500);
+
+    menuSelected = -1; 
+}
+
+void Menu::dibujar(RenderWindow &window)
+{
+    for(int i = 0; i< Max_main_Menu; i ++)
+    {
+        window.draw(mainMenu[i]); 
+    }
+}
+
+void Menu::moveUp()
+{
+    if(menuSelected - 1 >= 0)
+    {
+        mainMenu[menuSelected].setFillColor(Color::White);
+
+        menuSelected--; 
+        if(menuSelected == -1)
+        {
+            menuSelected = 2; 
+        }
+        mainMenu[menuSelected].setFillColor(Color::Blue);
+    }
+}
+
+void Menu::moveDown()
+{
+    if(menuSelected + 1 <= Max_main_Menu)
+    {
+        mainMenu[menuSelected].setFillColor(Color::White);
+
+        menuSelected++; 
+        if(menuSelected == 4)
+        {
+            menuSelected = 0; 
+        }
+        mainMenu[menuSelected].setFillColor(Color::Blue);
+    }
+}
+
+int Menu::menuPressed()
+{
+    return menuSelected;
+}
+
+Menu::~Menu()
+{
+}

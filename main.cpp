@@ -3,6 +3,7 @@
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "Arma.hpp"
+#include "Menu.hpp"
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
@@ -36,7 +37,16 @@ int main() // Camera 36x20, 50 square pixels
     Vector2i mapPosition = window.getPosition();
     Vector2i cameraPostion = mapPosition + Vector2i((widthMap - widthCamera) / 2, 0);
     window.setFramerateLimit(fps);
-    
+
+    RenderWindow mainMENU(VideoMode(960, 720),"Main Menu", Style::Default); 
+    Menu Menu(mainMENU.getSize().x, mainMENU.getSize().y); 
+    RectangleShape fondo; 
+    fondo.setSize(Vector2f(960, 720)); 
+    Texture ftexture; 
+    if (!ftexture.loadFromFile("sprites/fondomenu.png"))
+        cout << "Error al cargar imagen" << '\n'; 
+    fondo.setTexture(&ftexture); 
+
     // Sprites
     vector<Texture> textures;
     Texture monkey;
@@ -50,7 +60,6 @@ int main() // Camera 36x20, 50 square pixels
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
     vector<Enemy> enemigos; 
@@ -80,88 +89,172 @@ int main() // Camera 36x20, 50 square pixels
     Vector2f aimDirNorm;
     Clock timer;
     float time = 100 / fps;
-    while (window.isOpen())
+
+    while (mainMENU.isOpen())
     {
-        Event event;
-        while (window.pollEvent(event))
+        Event event; 
+        while (mainMENU.pollEvent(event))
         {
-            if (event.type == Event::Closed)
-                window.close();
-            if (event.type == Event::MouseButtonPressed)
+            if(event.type == Event::Closed)
             {
-                if (event.mouseButton.button == Mouse::Left && !playing)
+                mainMENU.close(); 
+            }
+
+            if(event.type == Event::KeyPressed)
+            {
+                if(event.key.code == Keyboard::Down)
                 {
-                    int x = event.mouseButton.x;
-                    int y = event.mouseButton.y;
-                    grid.toggle(x, y);
+                    Menu.moveDown(); 
                 }
-                if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
+
+                if(event.key.code == Keyboard::Return)
                 {
-                    playing = !playing;
-                    if (playing)
+                    int mun = Menu.menuPressed(); 
+
+                    if (mun == 0)
                     {
-                        window.setPosition(cameraPostion);
-                        window.setSize(Vector2u(widthCamera, height));
+                        while (window.isOpen())
+                        {
+                            Event event;
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == Event::Closed)
+                                    window.close();
+                                if (event.type == Event::MouseButtonPressed)
+                                {
+                                    if (event.mouseButton.button == Mouse::Left && !playing)
+                                    {
+                                        int x = event.mouseButton.x;
+                                        int y = event.mouseButton.y;
+                                        grid.toggle(x, y);
+                                    }
+                                    if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
+                                    {
+                                        playing = !playing;
+                                        if (playing)
+                                        {
+                                            window.setPosition(cameraPostion);
+                                            window.setSize(Vector2u(widthCamera, height));
+                                        }
+                                        else
+                                        {
+                                            window.setPosition(mapPosition);
+                                            window.setSize(Vector2u(widthMap, height));
+                                            window.setView(map);
+                                        }
+                                    }
+                                }
+                            }
+
+                            playerCenter = Vector2f(player.x, player.y);
+                            mousePosWindow = Vector2f(Mouse::getPosition(window));
+                            aimDir = mousePosWindow - playerCenter;
+                            float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
+                            aimDirNorm = aimDir / magnitude;
+
+                            if (Mouse::isButtonPressed(Mouse::Left))
+                            {
+                                b1.bullet.setPosition(playerCenter);
+                                b1.currVelocity = aimDirNorm * b1.maxSpeed;
+
+                                balas.push_back(Arma(b1));
+                            }
+
+                            for (size_t i = 0; i < balas.size(); i++)
+                            {
+                                balas[i].bullet.move(balas[i].currVelocity);
+
+                                if (balas[i].bullet.getPosition().x < 0 || balas[i].bullet.getPosition().x > window.getSize().x || balas[i].bullet.getPosition().y < 0 || balas[i].bullet.getPosition().y > window.getSize().y)
+                                {
+                                    balas.erase(balas.begin() + i); 
+                                }
+                            }
+
+                            player.control(time);
+                            enemy.goTo(player.x, player.y, time);
+                            window.clear();
+                            if (playing)
+                            {
+                                camera.setCenter(player.x, player.y);
+                                window.setView(camera);
+                            }
+
+                            grid.drawTo(window);
+                            player.drawTo(window);
+                            enemy.drawTo(window);
+                            grid.activeRoom->update(window);
+
+                            for (size_t i = 0; i < balas.size(); i++)
+                            {
+                                window.draw(balas[i].bullet);
+                            }
+                            window.display();
+                            time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
+                        }
                     }
-                    else
+                    else if (mun == 1)
                     {
-                        window.setPosition(mapPosition);
-                        window.setSize(Vector2u(widthMap, height));
-                        window.setView(map);
+                        RenderWindow Options(VideoMode(960 , 720), "OPTION"); 
+                        while(Options.isOpen())
+                        {
+                            Event eventB; 
+                            while (Options.pollEvent(eventB))
+                            {
+                                if(eventB.type == Event::Closed)
+                                {
+                                    Options.close(); 
+                                }
+                                
+                                if(eventB.type == Event::KeyPressed)
+                                {
+                                    if(eventB.key.code == Keyboard::Escape)
+                                    {
+                                        Options.close(); 
+                                    } 
+                                }
+                            }  
+                            Options.clear();   
+                            Options.display();  
+                        }
+                    }
+                    else if(mun == 2)
+                    {
+                        RenderWindow About(VideoMode(960 , 720), "ABOUT"); 
+                        while (About.isOpen())
+                        {
+                            Event eventC; 
+                            while (About.pollEvent(eventC))
+                            {
+                                if(eventC.type == Event::Closed)
+                                {
+                                    About.close(); 
+                                }
+
+                                if(eventC.type == Event::KeyPressed)
+                                {
+                                    if(eventC.key.code == Keyboard::Escape)
+                                    {
+                                        About.close(); 
+                                    }
+                                }
+                            }   
+                            About.clear(); 
+                            About.display(); 
+                        }                    
+                    }
+                    else if(mun == 3)
+                    {
+                        mainMENU.close(); 
                     }
                 }
             }
         }
 
-        playerCenter = Vector2f(player.x, player.y);
-        mousePosWindow = Vector2f(Mouse::getPosition(window));
-        aimDir = mousePosWindow - playerCenter;
-        float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
-        aimDirNorm = aimDir / magnitude;
-
-        // cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
-        if (Mouse::isButtonPressed(Mouse::Left))
-        {
-            b1.bullet.setPosition(playerCenter);
-            b1.currVelocity = aimDirNorm * b1.maxSpeed;
-
-            balas.push_back(Arma(b1));
-        }
-
-        for (size_t i = 0; i < balas.size(); i++)
-        {
-            balas[i].bullet.move(balas[i].currVelocity);
-
-            if (balas[i].bullet.getPosition().x < 0 || balas[i].bullet.getPosition().x > window.getSize().x || balas[i].bullet.getPosition().y < 0 || balas[i].bullet.getPosition().y > window.getSize().y)
-            {
-                balas.erase(balas.begin() + i); 
-            }
-        }
-        //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
-
-        player.control(time);
-        enemy.goTo(player.x, player.y, time);
-        window.clear();
-        if (playing)
-        {
-            camera.setCenter(player.x, player.y);
-            window.setView(camera);
-        }
-        for (int j = 0; j < enemigos.size(); j++)
-        {
-        }
-        
-        grid.drawTo(window);
-        player.drawTo(window);
-        enemy.drawTo(window);
-        grid.activeRoom->update(window);
-
-        for (size_t i = 0; i < balas.size(); i++)
-        {
-            window.draw(balas[i].bullet);
-        }
-        window.display();
-        time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
+        mainMENU.clear(); 
+        mainMENU.draw(fondo); 
+        Menu.dibujar(mainMENU); 
+        mainMENU.display(); 
     }
+
     return 0;
 }
