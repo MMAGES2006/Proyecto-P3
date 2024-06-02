@@ -49,23 +49,8 @@ int main() // Camera 36x20, 50 square pixels
     textures.push_back(slime);
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
-
     
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
-    Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
-    vector<Enemy> enemigos; 
-    int spawnCounter = 5; 
-
-    if(spawnCounter < 5)
-    {
-        spawnCounter++;
-    }
-    
-    if(spawnCounter >=20)
-    {
-        enemigos.push_back(Enemy(enemy)); 
-        spawnCounter = 0; 
-    }
 
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
@@ -113,12 +98,13 @@ int main() // Camera 36x20, 50 square pixels
             }
         }
 
-        playerCenter = Vector2f(player.x, player.y);
+        playerCenter = playing ? Vector2f(widthCamera/2, height/2) : Vector2f(player.x, player.y);
         mousePosWindow = Vector2f(Mouse::getPosition(window));
+        //if(playing) mousePosWindow *= changeFactor;
         aimDir = mousePosWindow - playerCenter;
         float magnitude = sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
         aimDirNorm = aimDir / magnitude;
-
+        playerCenter = Vector2f(player.x, player.y);
         // cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
         if (Mouse::isButtonPressed(Mouse::Left))
         {
@@ -128,11 +114,11 @@ int main() // Camera 36x20, 50 square pixels
             balas.push_back(Arma(b1));
         }
 
-        for (size_t i = 0; i < balas.size(); i++)
+        for (int i = 0; i < balas.size(); i++)
         {
             balas[i].bullet.move(balas[i].currVelocity);
 
-            if (balas[i].bullet.getPosition().x < 0 || balas[i].bullet.getPosition().x > window.getSize().x || balas[i].bullet.getPosition().y < 0 || balas[i].bullet.getPosition().y > window.getSize().y)
+            if (balas[i].bullet.getPosition().x < 0 || balas[i].bullet.getPosition().x > widthMap || balas[i].bullet.getPosition().y < 0 || balas[i].bullet.getPosition().y > height)
             {
                 balas.erase(balas.begin() + i); 
             }
@@ -140,21 +126,17 @@ int main() // Camera 36x20, 50 square pixels
         //cout << aimDirNorm.x << " " << aimDirNorm.y << "\n";
 
         player.control(time);
-        enemy.goTo(player.x, player.y, time);
+        grid.activeRoom->update(player.x, player.y, time);
         window.clear();
         if (playing)
         {
             camera.setCenter(player.x, player.y);
             window.setView(camera);
         }
-        for (int j = 0; j < enemigos.size(); j++)
-        {
-        }
         
         grid.drawTo(window);
         player.drawTo(window);
-        enemy.drawTo(window);
-        grid.activeRoom->update(window);
+        grid.activeRoom->drawTo(window);
 
         for (size_t i = 0; i < balas.size(); i++)
         {
