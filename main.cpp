@@ -62,22 +62,6 @@ int main() // Camera 36x20, 50 square pixels
 
     Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     
-<<<<<<< HEAD
-    Enemy enemy(5, 3, slime, &playing, &grid, grid.spawnX, grid.spawnY);
-    vector<Enemy> enemigos; 
-    int spawnCounter = 5; 
-    if(spawnCounter < 5)
-    {
-        spawnCounter++;
-    }
-    if(spawnCounter >=20)
-    {
-        enemigos.push_back(Enemy(enemy)); 
-        spawnCounter = 0; 
-    }
-   
-=======
->>>>>>> 686ba4f31c25ef9ff9802902acfc232ce9db1c3a
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
