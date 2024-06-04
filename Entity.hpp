@@ -14,6 +14,7 @@ class Entity
 public:
     int health;
     float speed;
+    float damaged;
     float x, y;
     float semiWidth, semiHeight;
     bool* playing; //es un booleano que es verdadero si se esta jugando, falso sino

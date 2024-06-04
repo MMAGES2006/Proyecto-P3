@@ -1,9 +1,5 @@
 #include "Arma.hpp"
 
-/*Arma::Arma(int damage, int cooldown, int municion, Texture &texture)
-{
-}
-*/
 Arma::Arma(int damage, int cooldown, int municion, float radius, float speed, Entity* owner)
 {
   this->damage = damage;
@@ -54,12 +50,12 @@ void Arma::hit(vector<Enemy*> targets, Player* player, Direction direction)
   {
     for(int j = 0; j < targets.size(); j++)
     {
-        if(this->collision(targets[j], circle)) targets[j]->health -= this->damage;      
+        if(this->collision(targets[j], circle)) this->harm(targets[j]);
     }
   }
   else
   {
-    if(this->collision(player, circle)) player->health -= this->damage;  
+    if(this->collision(player, circle)) this->harm(player); 
   }
 }
 
@@ -90,7 +86,7 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
        {
           if(this->collision(targets[j], this->bullets[i].sprite)) 
           {
-            targets[j]->health -= this->damage;
+            this->harm(targets[j]);
             this->bullets.erase(this->bullets.begin()+i); //idea, hacer tres tipos, este, que todos los enemigos que toque mueran, y que los 
             break;
           }      
@@ -100,7 +96,7 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
     {
       if(this->collision(player, this->bullets[i].sprite)) 
       {
-        player->health -= this->damage;
+        this->harm(player); 
         this->bullets.erase(this->bullets.begin()+i); //idea, hacer tres tipos, este, que todos los enemigos que toque mueran, y que los 
         break;
       }      
@@ -127,3 +123,10 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
    if(this->owner->grid->identifyMap(x, y) > 0) return 1;
    return 0;
  }
+
+void Arma::harm(Entity* target)
+{
+  target->health -= this->damage;
+  target->damaged = 10;
+  target->sprite.setColor(Color::Red);
+}

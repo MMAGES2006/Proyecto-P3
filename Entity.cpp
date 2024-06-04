@@ -19,6 +19,7 @@ Entity::Entity(int health, int speed, Texture &texture, bool* playing, Grid* gri
   this->sprite.setPosition(x * this->grid->pixel - this->semiWidth, y * this->grid->pixel - this->semiHeight);
   this->gun = NULL;
   this->coldWeapon = NULL;
+  this->damaged = 0;
 }
 
 void Entity::drawTo(RenderWindow &window)

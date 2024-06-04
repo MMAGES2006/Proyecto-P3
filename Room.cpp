@@ -112,7 +112,11 @@ vector<vector<int>> exitGrid = vector<vector<int>>(45, vector<int>(25, -4));
   this->centerY = this->cornerY + (this->grid->rows / 8);
   this->visited = 0;
   this->design = vector<vector<int>>(45, vector<int>(25, 0));
+  this->enemies = {};
+  this->entities = {};
+
   int random;
+
   switch(type)
   {
     case SPAWN:
@@ -183,12 +187,19 @@ void Room::update(float playerX, float playerY, float time)
   {
     for(int i = 0; i < this->enemies.size(); i++)
     {
-      if(this->enemies[i]->isDead()) 
-      {
-        delete this->enemies[i];
-        this->enemies.erase(this->enemies.begin() + i);
-      }
-      else this->enemies[i]->goTo(playerX, playerY, time);
+      if(!this->enemies[i]->isDead()) this->enemies[i]->goTo(playerX, playerY, time);
+    }
+  }
+}
+
+void Room::killing()
+{
+  for(int i = 0; i < this->enemies.size(); i++) 
+  {
+    if(this->enemies[i]->isDead())
+    {
+      delete this->enemies[i];
+      this->enemies.erase(this->enemies.begin() + i);
     }
   }
 }
@@ -211,13 +222,13 @@ void Room::createEnemy(EnemyType type, int spawnX, int spawnY)
   {
     case SLIME:
       health = 5;
-      speed = 3;
+      speed = 6;
       sprite = 1;
       break;
     case MONKEY:
       health = 7;
-      speed = 4;
-      sprite = 0;
+      speed = 3;
+      sprite = 2;
       break;
   }
   this->enemies.push_back(new Enemy(type, health, speed, this->grid->textures[sprite], this->grid->playing, this->grid, spawnX, spawnY));

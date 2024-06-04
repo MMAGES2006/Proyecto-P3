@@ -40,6 +40,7 @@ public:
     void drawTo(RenderWindow  &window);
     bool collision(Entity* target, CircleShape &circle);
     bool collisionMap(CircleShape &bullet);
+    void harm(Entity* target);
 };
 
 #endif

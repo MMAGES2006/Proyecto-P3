@@ -8,8 +8,8 @@ Entity(health, speed, texture, playing, grid, x, y)
   this->weapon = 1;
   this->wait = 0;
   this->direction = NONE;
-  this->coldWeapon = new Arma(10, 20, 15, this);
-  this->gun = new Arma(5, 50, 10, 3, 3, this);
+  this->coldWeapon = new Arma(8, 20, 15, this); 
+  this->gun = new Arma(4, 50, 10, 3, 3, this);
   this->grid->player = this;
 }
 void Player::control(RenderWindow &window, float time)
@@ -54,6 +54,8 @@ void Player::control(RenderWindow &window, float time)
   this->gun->update(time, this->grid->activeRoom->enemies, NULL); 
   this->coldWeapon->update(time, this->grid->activeRoom->enemies, NULL);
   if(this->wait > 0) this->wait -= time;
+  if(this->damaged > 0) this->damaged -= time;
+  else this->sprite.setColor(Color::White);
 }
 
 void Player::updateRoom()

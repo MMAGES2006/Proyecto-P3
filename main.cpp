@@ -43,7 +43,7 @@ int main() // Camera 36x20, 50 square pixels
     RectangleShape fondo; 
     fondo.setSize(Vector2f(960, 720)); 
     Texture ftexture; 
-    if (!ftexture.loadFromFile("sprites/fondomenu .png"))
+    if (!ftexture.loadFromFile("sprites/fondomenu.png"))
         cout << "Error al cargar imagen" << '\n'; 
     fondo.setTexture(&ftexture); 
 
@@ -57,10 +57,14 @@ int main() // Camera 36x20, 50 square pixels
     if (!slime.loadFromFile("sprites/slimeSF.png"))
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(slime);
+    Texture monkey;
+    if (!monkey.loadFromFile("sprites/P1.png"))
+        cout << "Error al cargar imagen" << '\n';
+    textures.push_back(monkey);
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(10, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(50, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
@@ -156,8 +160,9 @@ int main() // Camera 36x20, 50 square pixels
                             grid.activeRoom->drawTo(window);
 
                             window.display();
-                            time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
+
                             if(wait > 0) wait -= time;
+                            grid.activeRoom->killing();
                             if(player.isDead()) 
                             {
                                 cout<<"Has muerto :(\n";
@@ -178,6 +183,7 @@ int main() // Camera 36x20, 50 square pixels
                                 */
                                 window.close();
                             } 
+                            time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
                         }
                     }
                     else if (mun == 1)
