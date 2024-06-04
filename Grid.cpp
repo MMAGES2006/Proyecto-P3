@@ -95,7 +95,7 @@ void Grid::generateMap()
   }
 }
 
-void Grid::drawTo(RenderWindow &window, sf::Texture &algo)
+void Grid::drawTo(RenderWindow &window, Texture &pared)
 {
   for (int i = 0; i < this->cols; i++)
   {
@@ -104,7 +104,7 @@ void Grid::drawTo(RenderWindow &window, sf::Texture &algo)
       if (this->map[i][j])
       {
         RectangleShape rect(Vector2f(this->pixel, this->pixel));
-        rect.setTexture(&algo);
+        rect.setTexture(&pared);
         rect.setPosition(Vector2f(i * this->pixel, j * this->pixel));
         switch (this->map[i][j])
         {

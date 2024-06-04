@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include "Grid.hpp"
+#include "Player.hpp"
 using namespace sf;
 using namespace std;
 

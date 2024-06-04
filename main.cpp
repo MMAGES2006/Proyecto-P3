@@ -43,7 +43,7 @@ int main() // Camera 36x20, 50 square pixels
     RectangleShape fondo;
     fondo.setSize(Vector2f(960, 720));
     Texture ftexture;
-    if (!ftexture.loadFromFile("sprites/fondomenu .png"))
+    if (!ftexture.loadFromFile("sprites/fondomenu.png"))
         cout << "Error al cargar imagen" << '\n';
     fondo.setTexture(&ftexture);
 
@@ -61,11 +61,11 @@ int main() // Camera 36x20, 50 square pixels
     Texture pared;
     if (!pared.loadFromFile("sprites/pared.png"))
         cout << "Error al cargar imagen" << '\n';
-    textures.push_back(P1);
+    textures.push_back(pared);
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(10, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(100, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
 
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
