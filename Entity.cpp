@@ -18,6 +18,7 @@ Entity::Entity(int health, int speed, Texture &texture, bool* playing, Grid* gri
   this->semiHeight=this->sprite.getGlobalBounds().getSize().y/2;
   this->sprite.setPosition(x * this->grid->pixel - this->semiWidth, y * this->grid->pixel - this->semiHeight);
   this->gun = NULL;
+  this->coldWeapon = NULL;
 }
 
 void Entity::drawTo(RenderWindow &window)
@@ -26,9 +27,14 @@ void Entity::drawTo(RenderWindow &window)
   if(this->gun) this->gun->drawTo(window);
 }
 
-void Entity::update()
+bool Entity::isDead()
 {
-  return;
+  if(this->health < 1) 
+  {
+    if(this->gun) this->gun->bullets.clear();
+    return 1;
+  }
+  return 0;
 }
 
 bool Entity::collisionMap(float x, float y, Direction direction) //esta así para que sea más rápido, bueno, al menos creo que así es más rapido

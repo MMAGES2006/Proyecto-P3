@@ -1,39 +1,59 @@
 #include "Player.hpp"
 #include "Arma.hpp"
+#include "Menu.hpp"
 
 Player::Player(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y): 
 Entity(health, speed, texture, playing, grid, x, y)
 {
-  this->gun = new Arma(0, 50, 10, 5, 10, this);
+  this->weapon = 1;
+  this->wait = 0;
+  this->direction = NONE;
+  this->coldWeapon = new Arma(10, 20, 15, this);
+  this->gun = new Arma(5, 50, 10, 5, 3, this);
+  this->grid->player = this;
 }
-
 void Player::control(RenderWindow &window, float time)
 {
-  float displacement = this->speed*time;
-  updateXY();
-  updateRoom();
-  if (Keyboard::isKeyPressed(Keyboard::W)) 
+  float displacement = this->speed * time;
+  this->updateXY();
+  this->updateRoom();
+  if(Keyboard::isKeyPressed(Keyboard::W)) 
   {
-    if(!collisionMap(this->x, this->y - displacement, UP)) sprite.move(0, -displacement);
+    direction = UP;
+    if(!this->collisionMap(this->x, this->y - displacement, UP)) sprite.move(0, -displacement);
   }
-  if (Keyboard::isKeyPressed(Keyboard::A))
+  if(Keyboard::isKeyPressed(Keyboard::A))
   {
-    if(!collisionMap(this->x - displacement, this->y, LEFT)) sprite.move(-displacement, 0);
+    direction = LEFT;
+    if(!this->collisionMap(this->x - displacement, this->y, LEFT)) sprite.move(-displacement, 0);
   }
-  if (Keyboard::isKeyPressed(Keyboard::S))
+  if(Keyboard::isKeyPressed(Keyboard::S))
   {
-    if(!collisionMap(this->x, this->y + displacement, DOWN)) sprite.move(0, displacement);
+    direction = DOWN;
+    if(!this->collisionMap(this->x, this->y + displacement, DOWN)) sprite.move(0, displacement);
   }
-  if (Keyboard::isKeyPressed(Keyboard::D)) 
+  if(Keyboard::isKeyPressed(Keyboard::D)) 
   {
-    if(!collisionMap(this->x + displacement, this->y, RIGHT)) sprite.move(displacement, 0);
+    direction = RIGHT;
+    if(!this->collisionMap(this->x + displacement, this->y, RIGHT)) sprite.move(displacement, 0);
   }
-  if (Mouse::isButtonPressed(Mouse::Left)) 
+  if(Mouse::isButtonPressed(Mouse::Right) && (this->wait <= 0)) 
   {
-    if(*(this->playing)) this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(900, 500));
-    else this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(this->x, this->y)); 
+    this->wait = 25;
+    this->weapon *= -1;
   }
-  this->gun->update(time);
+  if(Mouse::isButtonPressed(Mouse::Left)) 
+  {
+    if(this->weapon > 0)
+    {
+        if(*(this->playing)) this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(900, 500));
+        else this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(this->x, this->y)); 
+    }
+    else this->coldWeapon->hit(this->grid->activeRoom->enemies, NULL, direction);
+  }
+  this->gun->update(time, this->grid->activeRoom->enemies, NULL); 
+  this->coldWeapon->update(time, this->grid->activeRoom->enemies, NULL);
+  if(this->wait > 0) this->wait -= time;
 }
 
 void Player::updateRoom()

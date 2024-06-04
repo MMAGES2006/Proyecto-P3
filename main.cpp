@@ -60,7 +60,7 @@ int main() // Camera 36x20, 50 square pixels
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(10, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(20, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
@@ -68,7 +68,7 @@ int main() // Camera 36x20, 50 square pixels
    
     Clock timer;
     float time = 100 / fps;
-
+    float wait = 0;
     while (mainMENU.isOpen())
     {
         Event event; 
@@ -116,29 +116,32 @@ int main() // Camera 36x20, 50 square pixels
                                         int y = event.mouseButton.y;
                                         grid.toggle(x, y);
                                     }
-                                    if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
+                                    /*if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
                                     {
-                                        playing = !playing;
-                                        if (playing)
-                                        {
-                                            window.setPosition(cameraPostion);
-                                            window.setSize(Vector2u(widthCamera, height));
-                                        }
-                                        else
-                                        {
-                                            window.setPosition(mapPosition);
-                                            window.setSize(Vector2u(widthMap, height));
-                                            window.setView(map);
-                                        }
+                                        
+                                    }*/
+                                }
+                                if(Keyboard::isKeyPressed(Keyboard::M) && (wait <= 0)) 
+                                {
+                                    wait = 25;
+                                    playing = !playing;
+                                    if (playing)
+                                    {
+                                      window.setPosition(cameraPostion);
+                                      window.setSize(Vector2u(widthCamera, height));
                                     }
+                                    else
+                                    {
+                                      window.setPosition(mapPosition);
+                                      window.setSize(Vector2u(widthMap, height));
+                                      window.setView(map);
+                                    }
+
                                 }
                             }
                             
-                            /*if(playing)
-                            {*/
-                              player.control(window, time);
-                              grid.activeRoom->update(player.x, player.y, time);
-                           // }
+                            player.control(window, time);
+                            grid.activeRoom->update(player.x, player.y, time);
 
                             window.clear();
 
@@ -154,11 +157,27 @@ int main() // Camera 36x20, 50 square pixels
 
                             window.display();
                             time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
-
-                            if(event.key.code  == Keyboard::Escape)
+                            if(wait > 0) wait -= time;
+                            if(player.isDead()) 
                             {
+                                cout<<"Has muerto :(\n";
                                 window.close();
                             }
+                            if(event.key.code  == Keyboard::Escape)
+                            {
+                                
+                                cout<<'\n';
+                                cout<<'{';
+                                for(int i=0; i<45; i++)
+                                {
+                                    cout<<'{';
+                                    for(int j=0; j<24; j++) cout<<grid.map[i][j]<<", ";
+                                    cout<<grid.map[i][24]<<"},\n";
+                                }
+                                cout<<'}';
+                                //window.close();
+                            } 
+                            
                         }
                     }
                     else if (mun == 1)

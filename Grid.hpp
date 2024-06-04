@@ -8,6 +8,7 @@
 using namespace sf;
 using namespace std;
 
+class Player;
 class Grid
 {
 public:
@@ -18,6 +19,7 @@ public:
     bool* playing; //es un booleano que es verdadero si se esta jugando, falso sino
     vector<Texture> textures;
     int spawnX, spawnY;
+    Player* player;
     pair<int, int> newRoom;
     Room* miniMap[4][4];
     Room* activeRoom;

@@ -1,4 +1,5 @@
 #include "Grid.hpp"
+#include "Player.hpp"
 
 Grid::Grid(int cols, int rows, int pixel, float changeFactor, bool* playing, vector<Texture> &textures)
 {
@@ -136,7 +137,9 @@ void Grid::toggle(int x, int y)
 {   
   int indexX = x / this->pixel;
   int indexY = y / this->pixel;
-  this->map[indexX][indexY] = (this->map[indexX][indexY] < 1) ? 1 : 0;
+  //this->map[indexX][indexY] = (this->map[indexX][indexY] < 1) ? 1 : 0;
+  this->map[indexX][indexY]++;
+  if(this->map[indexX][indexY] == 2) this->map[indexX][indexY] = -4;
 }
 
 void Grid::generateExtra(RoomType type)

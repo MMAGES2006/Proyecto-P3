@@ -5,10 +5,12 @@
 using namespace sf;
 using namespace std;
 
+enum EnemyType{SLIME, MONKEY};
 enum RoomType{SPAWN, COMBAT, SPECIAL, EXIT, VOID};
 class Grid;
 class Entity;
 class Enemy;
+
 class Room
 {
 public:
@@ -27,6 +29,7 @@ public:
     void start();
     void update(float playerX, float playerY, float time);
     void drawTo(RenderWindow &window);
+    void createEnemy(EnemyType type, int spawnX, int spawnY);
 };
 
 #endif
