@@ -155,7 +155,7 @@ int main() // Camera 36x20, 50 square pixels
                                 window.setView(camera);
                             }
 
-                            grid.drawTo(window, ); /*nombre textura*/
+                            grid.drawTo(window, pared); /*nombre textura*/
                             player.drawTo(window);
                             grid.activeRoom->drawTo(window);
 
