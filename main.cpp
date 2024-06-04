@@ -185,7 +185,7 @@ int main() // Camera 36x20, 50 square pixels
                     }
                     else if(mun == 2)
                     {
-                        RenderWindow About(VideoMode(960 , 720), "ABOUT"); 
+                        RenderWindow About(VideoMode(960 , 720), "Credits"); 
                         while (About.isOpen())
                         {
                             Event eventC; 

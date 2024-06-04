@@ -4,7 +4,7 @@
 Player::Player(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y): 
 Entity(health, speed, texture, playing, grid, x, y)
 {
-  this->gun = new Arma(0, 50, 10, 5, 10, this);
+  this->gun = new Arma(0, 50, 10, 3, 10, this);
 }
 
 void Player::control(RenderWindow &window, float time)
