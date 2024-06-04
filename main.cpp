@@ -23,7 +23,7 @@ int main() // Camera 36x20, 50 square pixels
     int widthCamera = 1800;
     float changeFactor = (float)pixel / (float)pixelCamera;
     int speed = 5;
-    srand(time(NULL)); 
+    srand(time(NULL));
 
     bool mousePressed = false;
     bool playing = 0; // booleano que contiene si se esta "jugando" o no
@@ -38,14 +38,14 @@ int main() // Camera 36x20, 50 square pixels
     Vector2i cameraPostion = mapPosition + Vector2i((widthMap - widthCamera) / 2, 0);
     window.setFramerateLimit(fps);
 
-    RenderWindow mainMENU(VideoMode(960, 720),"Main Menu", Style::Default); 
-    Menu Menu(mainMENU.getSize().x, mainMENU.getSize().y); 
-    RectangleShape fondo; 
-    fondo.setSize(Vector2f(960, 720)); 
-    Texture ftexture; 
+    RenderWindow mainMENU(VideoMode(960, 720), "Main Menu", Style::Default);
+    Menu Menu(mainMENU.getSize().x, mainMENU.getSize().y);
+    RectangleShape fondo;
+    fondo.setSize(Vector2f(960, 720));
+    Texture ftexture;
     if (!ftexture.loadFromFile("sprites/fondomenu .png"))
-        cout << "Error al cargar imagen" << '\n'; 
-    fondo.setTexture(&ftexture); 
+        cout << "Error al cargar imagen" << '\n';
+    fondo.setTexture(&ftexture);
 
     // Sprites
     vector<Texture> textures;
@@ -58,48 +58,53 @@ int main() // Camera 36x20, 50 square pixels
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(slime);
 
+    Texture pared;
+    if (!pared.loadFromFile("sprites/pared.png"))
+        cout << "Error al cargar imagen" << '\n';
+    textures.push_back(P1);
+
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
     Player player(10, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
-    
+
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
-   
+
     Clock timer;
     float time = 100 / fps;
     float wait = 0;
     while (mainMENU.isOpen())
     {
-        Event event; 
+        Event event;
         while (mainMENU.pollEvent(event))
         {
-            if(event.type == Event::Closed)
+            if (event.type == Event::Closed)
             {
-                mainMENU.close(); 
+                mainMENU.close();
             }
 
-            if(event.type == Event::KeyPressed)
+            if (event.type == Event::KeyPressed)
             {
-                if(event.key.code == Keyboard::Up)
+                if (event.key.code == Keyboard::Up)
                 {
-                    Menu.moveUp(); 
+                    Menu.moveUp();
                     break;
                 }
 
-                if(event.key.code == Keyboard::Down)
+                if (event.key.code == Keyboard::Down)
                 {
-                    Menu.moveDown(); 
+                    Menu.moveDown();
                     break;
                 }
 
-                if(event.key.code == Keyboard::Return)
+                if (event.key.code == Keyboard::Return)
                 {
-                    int mun = Menu.menuPressed(); 
+                    int mun = Menu.menuPressed();
 
                     if (mun == 0)
                     {
-                        mainMENU.close(); 
+                        mainMENU.close();
 
                         while (window.isOpen())
                         {
@@ -114,32 +119,31 @@ int main() // Camera 36x20, 50 square pixels
                                     {
                                         int x = event.mouseButton.x;
                                         int y = event.mouseButton.y;
-                                        //grid.toggle(x, y);
+                                        // grid.toggle(x, y);
                                     }
                                     /*if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
                                     {
-                                        
+
                                     }*/
                                 }
-                                if(Keyboard::isKeyPressed(Keyboard::M) && (wait <= 0)) 
+                                if (Keyboard::isKeyPressed(Keyboard::M) && (wait <= 0))
                                 {
                                     wait = 25;
                                     playing = !playing;
                                     if (playing)
                                     {
-                                      window.setPosition(cameraPostion);
-                                      window.setSize(Vector2u(widthCamera, height));
+                                        window.setPosition(cameraPostion);
+                                        window.setSize(Vector2u(widthCamera, height));
                                     }
                                     else
                                     {
-                                      window.setPosition(mapPosition);
-                                      window.setSize(Vector2u(widthMap, height));
-                                      window.setView(map);
+                                        window.setPosition(mapPosition);
+                                        window.setSize(Vector2u(widthMap, height));
+                                        window.setView(map);
                                     }
-
                                 }
                             }
-                            
+
                             player.control(window, time);
                             grid.activeRoom->update(player.x, player.y, time);
 
@@ -147,23 +151,24 @@ int main() // Camera 36x20, 50 square pixels
 
                             if (playing)
                             {
-                              camera.setCenter(player.x, player.y);
-                              window.setView(camera);
+                                camera.setCenter(player.x, player.y);
+                                window.setView(camera);
                             }
 
-                            grid.drawTo(window);
+                            grid.drawTo(window, ); /*nombre textura*/
                             player.drawTo(window);
                             grid.activeRoom->drawTo(window);
 
                             window.display();
                             time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
-                            if(wait > 0) wait -= time;
-                            if(player.isDead()) 
+                            if (wait > 0)
+                                wait -= time;
+                            if (player.isDead())
                             {
-                                cout<<"Has muerto :(\n";
+                                cout << "Has muerto :(\n";
                                 window.close();
                             }
-                            if(event.key.code  == Keyboard::Escape)
+                            if (event.key.code == Keyboard::Escape)
                             {
                                 /*
                                 cout<<'\n';
@@ -177,71 +182,71 @@ int main() // Camera 36x20, 50 square pixels
                                 cout<<'}';
                                 */
                                 window.close();
-                            } 
+                            }
                         }
                     }
                     else if (mun == 1)
                     {
-                        RenderWindow Options(VideoMode(960 , 720), "OPTION"); 
-                        while(Options.isOpen())
+                        RenderWindow Options(VideoMode(960, 720), "OPTION");
+                        while (Options.isOpen())
                         {
-                            Event eventB; 
+                            Event eventB;
                             while (Options.pollEvent(eventB))
                             {
-                                if(eventB.type == Event::Closed)
+                                if (eventB.type == Event::Closed)
                                 {
-                                    Options.close(); 
-                                }
-                                
-                                if(eventB.type == Event::KeyPressed)
-                                {
-                                    if(eventB.key.code == Keyboard::Escape)
-                                    {
-                                        Options.close(); 
-                                    } 
-                                }
-                            }  
-                            Options.clear();   
-                            Options.display();  
-                        }
-                    }
-                    else if(mun == 2)
-                    {
-                        RenderWindow About(VideoMode(960 , 720), "Credits"); 
-                        while (About.isOpen())
-                        {
-                            Event eventC; 
-                            while (About.pollEvent(eventC))
-                            {
-                                if(eventC.type == Event::Closed)
-                                {
-                                    About.close(); 
+                                    Options.close();
                                 }
 
-                                if(eventC.type == Event::KeyPressed)
+                                if (eventB.type == Event::KeyPressed)
                                 {
-                                    if(eventC.key.code == Keyboard::Escape)
+                                    if (eventB.key.code == Keyboard::Escape)
                                     {
-                                        About.close(); 
+                                        Options.close();
                                     }
                                 }
-                            }   
-                            About.clear(); 
-                            About.display(); 
-                        }                    
+                            }
+                            Options.clear();
+                            Options.display();
+                        }
                     }
-                    else if(mun == 3)
+                    else if (mun == 2)
                     {
-                        mainMENU.close(); 
+                        RenderWindow About(VideoMode(960, 720), "Credits");
+                        while (About.isOpen())
+                        {
+                            Event eventC;
+                            while (About.pollEvent(eventC))
+                            {
+                                if (eventC.type == Event::Closed)
+                                {
+                                    About.close();
+                                }
+
+                                if (eventC.type == Event::KeyPressed)
+                                {
+                                    if (eventC.key.code == Keyboard::Escape)
+                                    {
+                                        About.close();
+                                    }
+                                }
+                            }
+                            About.clear();
+                            About.display();
+                        }
+                    }
+                    else if (mun == 3)
+                    {
+                        mainMENU.close();
                     }
                 }
             }
         }
 
-        mainMENU.clear(); 
-        mainMENU.draw(fondo); 
-        Menu.dibujar(mainMENU); 
-        mainMENU.display(); 
+        mainMENU.clear();
+        mainMENU.draw(fondo);
+        Menu.dibujar(mainMENU);
+        mainMENU.display();
     }
 
     return 0;
