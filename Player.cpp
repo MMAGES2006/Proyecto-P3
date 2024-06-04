@@ -9,7 +9,7 @@ Entity(health, speed, texture, playing, grid, x, y)
   this->wait = 0;
   this->direction = NONE;
   this->coldWeapon = new Arma(10, 20, 15, this);
-  this->gun = new Arma(5, 50, 10, 5, 3, this);
+  this->gun = new Arma(5, 50, 10, 3, 3, this);
   this->grid->player = this;
 }
 void Player::control(RenderWindow &window, float time)

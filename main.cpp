@@ -43,16 +43,16 @@ int main() // Camera 36x20, 50 square pixels
     RectangleShape fondo; 
     fondo.setSize(Vector2f(960, 720)); 
     Texture ftexture; 
-    if (!ftexture.loadFromFile("sprites/fondomenu.png"))
+    if (!ftexture.loadFromFile("sprites/fondomenu .png"))
         cout << "Error al cargar imagen" << '\n'; 
     fondo.setTexture(&ftexture); 
 
     // Sprites
     vector<Texture> textures;
-    Texture monkey;
-    if (!monkey.loadFromFile("sprites/P1.png"))
+    Texture P1;
+    if (!P1.loadFromFile("sprites/personaje-frente.png"))
         cout << "Error al cargar imagen" << '\n';
-    textures.push_back(monkey);
+    textures.push_back(P1);
     Texture slime;
     if (!slime.loadFromFile("sprites/slimeSF.png"))
         cout << "Error al cargar imagen" << '\n';
@@ -60,7 +60,7 @@ int main() // Camera 36x20, 50 square pixels
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(20, speed, monkey, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(10, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
@@ -114,7 +114,7 @@ int main() // Camera 36x20, 50 square pixels
                                     {
                                         int x = event.mouseButton.x;
                                         int y = event.mouseButton.y;
-                                        grid.toggle(x, y);
+                                        //grid.toggle(x, y);
                                     }
                                     /*if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
                                     {
@@ -207,7 +207,7 @@ int main() // Camera 36x20, 50 square pixels
                     }
                     else if(mun == 2)
                     {
-                        RenderWindow About(VideoMode(960 , 720), "ABOUT"); 
+                        RenderWindow About(VideoMode(960 , 720), "Credits"); 
                         while (About.isOpen())
                         {
                             Event eventC; 
