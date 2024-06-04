@@ -165,7 +165,7 @@ int main() // Camera 36x20, 50 square pixels
                             }
                             if(event.key.code  == Keyboard::Escape)
                             {
-                                
+                                /*
                                 cout<<'\n';
                                 cout<<'{';
                                 for(int i=0; i<45; i++)
@@ -175,9 +175,9 @@ int main() // Camera 36x20, 50 square pixels
                                     cout<<grid.map[i][24]<<"},\n";
                                 }
                                 cout<<'}';
-                                //window.close();
+                                */
+                                window.close();
                             } 
-                            
                         }
                     }
                     else if (mun == 1)
