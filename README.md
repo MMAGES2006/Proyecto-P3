@@ -37,5 +37,4 @@ Para abrirlo en la misma ventana en la que estás trabajando
 ```
 code . -r
 
-
 ```
