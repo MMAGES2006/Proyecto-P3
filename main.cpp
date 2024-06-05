@@ -4,6 +4,8 @@
 #include "Enemy.hpp"
 #include "Arma.hpp"
 #include "Menu.hpp"
+#include "Object.hpp"
+#include "Inventory.hpp"
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
@@ -70,6 +72,7 @@ int main() // Camera 36x20, 50 square pixels
     Texture bala;
     if (!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
+    textures.push_back(bala); 
 
     Clock timer;
     float time = 100 / fps;

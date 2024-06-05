@@ -11,6 +11,7 @@ Entity(health, speed, texture, playing, grid, x, y)
   this->coldWeapon = new Arma(10, 20, 15, this);
   this->gun = new Arma(5, 50, 10, 3, 3, this);
   this->grid->player = this;
+
 }
 void Player::control(RenderWindow &window, float time)
 {
@@ -61,3 +62,10 @@ void Player::updateRoom()
   this->grid->newRoom.first = (4 * this->x) / (this->grid->pixel * this->grid->cols);
   this->grid->newRoom.second = (4* this->y) / (this->grid->pixel * this->grid->rows);
 }
+
+/*
+Player::~Player()
+{
+  delete this-> inventory; 
+}
+*/
