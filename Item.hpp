@@ -5,23 +5,23 @@
 #include <iostream>
 #include <string>
 
-using namespace std; 
-using namespace sf; 
+using namespace std;
+using namespace sf;
 
-class Item {
+class Item
+{
 private:
-    string name;
-    RectangleShape shape;
     Sprite sprite;
-
+    string name;
 
 public:
-    Item(const std::string& name, const sf::Vector2f& position, const sf::Texture& texture);
+    vector<Item *> items;
+    Item(const string &name, const Vector2f &position, const Texture &texture);
+    string getName() const;
 
-    std::string getName() const;
-    sf::FloatRect getBounds() const;
-    void draw(sf::RenderWindow& window) const;
+    FloatRect getBounds() const;
 
+    void draw(sf::RenderWindow &window) const;
 };
 
-#endif 
+#endif

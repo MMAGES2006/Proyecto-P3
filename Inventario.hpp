@@ -1,16 +1,23 @@
+/*
 #ifndef Inventario_h
-#define Inventario_h 
+
+#define Inventario_h
 
 #include <vector>
 #include "Item.hpp"
+#include <SFML/Graphics.hpp>
+#include <vector>
+#include <iostream>
 
-class Inventory {
+using namespace sf;
+using namespace std;
+
+class Inventory : public Item
+{
 public:
-    void addItem(const Item& item);
     void listItems() const;
-
-private:
-    std::vector<Item> items;
+    void addItem(const Item &item);
 };
 
-#endif // INVENTORY_HPP
+#endif
+*/

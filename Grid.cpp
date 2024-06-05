@@ -104,10 +104,12 @@ void Grid::drawTo(RenderWindow &window, Texture &pared)
       if (this->map[i][j])
       {
         RectangleShape rect(Vector2f(this->pixel, this->pixel));
-        rect.setTexture(&pared);
         rect.setPosition(Vector2f(i * this->pixel, j * this->pixel));
         switch (this->map[i][j])
         {
+        case 1:
+          rect.setTexture(&pared);
+          break;
         case -1:
           rect.setFillColor(Color::Green);
           break;
