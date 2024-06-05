@@ -22,4 +22,18 @@ code .
 Para abrirlo en la misma ventana en la que estás trabajando
 ```
 code . -r
+
+Referencias: 
+sprite monkey: 
+https://www.deviantart.com/artsyfirefox/art/Monkey-Sprite-506492327
+
+fondo menu: 
+https://hccd.hypotheses.org/1875
+figure 5
+
+Sprite slime: 
+https://www.deviantart.com/pigmasteroink/art/Slime-Attack-Right-Sprite-959308597
+
+Sprite jugador: 
+Inspirado en el profesor Alejandro Gaytan
 ```
