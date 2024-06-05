@@ -25,7 +25,7 @@ public:
     Room *activeRoom;
     Grid(int cols, int rows, int pixel, float changeFactor, bool *playing, vector<Texture> &textures); // constructor
     void generateMap();                                                                                // pretende ser una generación procedural del mapa pero esta en pañales
-    void drawTo(RenderWindow &window, Texture &pared);                                                  // dibuja la matriz
+    void drawTo(RenderWindow &window, Texture &pared);                                                 // dibuja la matriz
     int identifyMap(float x, float y);                                                                 // regresa el valor de la celda de la matriz con coordenadas x, y, se esta usando para detectar colisión
     void toggle(int x, int y);                                                                         // usada para cambiar el estado de una celda con coordenadas x, y
     void generateExtra(RoomType type);

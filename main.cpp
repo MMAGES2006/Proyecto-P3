@@ -65,16 +65,13 @@ int main() // Camera 36x20, 50 square pixels
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(pared);
 
-    Texture piso;
-    if (!pared.loadFromFile("sprites/piso.png"))
-        cout << "Error al cargar imagen" << '\n';
-    textures.push_back(piso);
-
     vector<Item *> items;
     Texture pocion;
     if (!pared.loadFromFile("sprites/pocion.png"))
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(pocion);
+
+    // Item(*"Pocion", Vector2f(100.0f, 200.0f), &pocion, 20);
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
@@ -170,35 +167,10 @@ int main() // Camera 36x20, 50 square pixels
                             }
 
                             grid.drawTo(window, pared);
+
                             // inventory.draw(window);
                             player.drawTo(window);
                             grid.activeRoom->drawTo(window);
-
-                            /*
-                            for (const auto& item : items)
-                            {
-                                item.draw(window);
-                            }
-
-                            for (auto it = items.begin(); it != items.end();)
-                            {
-                                if (player.getBounds().intersects(it->getBounds()))
-                                {
-                                    player.pickUpItem(*it);
-                                    it = items.erase(it); // Eliminar objeto recogido
-                                }
-                                else
-                                {
-                                    ++it;
-                                }
-                            }
-
-                            if(event.key.code == Keyboard::E)
-                            {
-                                player.showInventory();
-
-                            }
-                            */
 
                             window.display();
                             time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps
