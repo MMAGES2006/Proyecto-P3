@@ -28,6 +28,7 @@ public:
     Room(RoomType type, int x, int y, Grid* grid); //constructor
     void start();
     void update(float playerX, float playerY, float time);
+    void killing();
     void drawTo(RenderWindow &window);
     void createEnemy(EnemyType type, int spawnX, int spawnY);
 };

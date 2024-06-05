@@ -122,6 +122,9 @@ void Grid::drawTo(RenderWindow &window, Texture &pared)
         case -4:
           rect.setFillColor(Color::Magenta);
           break;
+        case -5:
+          rect.setFillColor(Color::Blue);
+          break;
         }
         window.draw(rect);
       }
@@ -134,7 +137,6 @@ void Grid::drawTo(RenderWindow &window, Texture &pared)
       this->activeRoom = this->miniMap[this->newRoom.first][this->newRoom.second];
       this->activeRoom->start();
     }
-    cout << this->newRoom.first << this->newRoom.second << '\n';
   }
 }
 
@@ -272,4 +274,12 @@ bool Grid::potentialRoom(int x, int y)
   if (this->miniMap[x][y])
     return 0;
   return 1;
+}
+
+Grid::~Grid()
+{
+  for(int i = 0; i < 4; i++)
+  {
+    for(int j = 0; j < 4; j++) delete this->miniMap[i][j];
+  }
 }

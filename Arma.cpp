@@ -1,9 +1,5 @@
 #include "Arma.hpp"
 
-/*Arma::Arma(int damage, int cooldown, int municion, Texture &texture)
-{
-}
-*/
 Arma::Arma(int damage, int cooldown, int municion, float radius, float speed, Entity* owner)
 {
   this->damage = damage;
@@ -34,32 +30,32 @@ void Arma::hit(vector<Enemy*> targets, Player* player, Direction direction)
   switch(direction)
   {
     case UP:
-      y = -this->owner->semiHeight;
+      y = -this->owner->spriteSemiY;
       break;
     case LEFT:
-      x = -this->owner->semiWidth;
+      x = -this->owner->spriteSemiX;
       break;
     case DOWN:
-      y = this->owner->semiHeight;
+      y = this->owner->spriteSemiY;
       break;
     case RIGHT:
-      x = this->owner->semiWidth;
+      x = this->owner->spriteSemiX;
       break;
     case NONE:
       
       break;
   }
-  circle.setPosition(this->owner->x - this->owner->semiWidth + x, this->owner->y - this->owner->semiHeight + y);
+  circle.setPosition(this->owner->x + x - this->radius, this->owner->y + y - this->radius);
   if(player == NULL)
   {
     for(int j = 0; j < targets.size(); j++)
     {
-        if(this->collision(targets[j], circle)) targets[j]->health -= this->damage;      
+        if(this->collision(targets[j], circle)) this->harm(targets[j]);
     }
   }
   else
   {
-    if(this->collision(player, circle)) player->health -= this->damage;  
+    if(this->collision(player, circle)) this->harm(player); 
   }
 }
 
@@ -73,7 +69,7 @@ void Arma::fire(Vector2f targetPosition, Vector2f origin)
   direction /= magnitude;
   sprite.setRadius(this->radius);
   sprite.setFillColor(Color::White);
-  sprite.setPosition(this->owner->x, this->owner->y);
+  sprite.setPosition(this->owner->x - this->radius, this->owner->y - this->radius);
   this->bullets.push_back({sprite, direction});
 }
 
@@ -83,14 +79,18 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
   for (int i = 0; i < this->bullets.size(); i++)
   {
     this->bullets[i].sprite.move(this->bullets[i].direction * this->speed * time);
-    if(this->collisionMap(this->bullets[i].sprite)) this->bullets.erase(this->bullets.begin()+i);
+    if(this->collisionMap(this->bullets[i].sprite)) 
+    {
+      this->bullets.erase(this->bullets.begin()+i);
+      break;
+    }
     if(player == NULL)
     {
        for(int j = 0; j < targets.size(); j++)
        {
           if(this->collision(targets[j], this->bullets[i].sprite)) 
           {
-            targets[j]->health -= this->damage;
+            this->harm(targets[j]);
             this->bullets.erase(this->bullets.begin()+i); //idea, hacer tres tipos, este, que todos los enemigos que toque mueran, y que los 
             break;
           }      
@@ -100,7 +100,7 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
     {
       if(this->collision(player, this->bullets[i].sprite)) 
       {
-        player->health -= this->damage;
+        this->harm(player); 
         this->bullets.erase(this->bullets.begin()+i); //idea, hacer tres tipos, este, que todos los enemigos que toque mueran, y que los 
         break;
       }      
@@ -127,3 +127,10 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
    if(this->owner->grid->identifyMap(x, y) > 0) return 1;
    return 0;
  }
+
+void Arma::harm(Entity* target)
+{
+  target->health -= this->damage;
+  target->damaged = 10;
+  target->sprite.setColor(Color::Red);
+}
