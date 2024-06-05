@@ -64,7 +64,7 @@ int main() // Camera 36x20, 50 square pixels
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(200, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(20, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture bala;
     if(!bala.loadFromFile("sprites/bala.png"))

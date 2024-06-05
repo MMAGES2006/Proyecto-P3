@@ -79,7 +79,11 @@ void Arma::update(float time, vector<Enemy*> targets, Player* player)
   for (int i = 0; i < this->bullets.size(); i++)
   {
     this->bullets[i].sprite.move(this->bullets[i].direction * this->speed * time);
-    if(this->collisionMap(this->bullets[i].sprite)) this->bullets.erase(this->bullets.begin()+i);
+    if(this->collisionMap(this->bullets[i].sprite)) 
+    {
+      this->bullets.erase(this->bullets.begin()+i);
+      break;
+    }
     if(player == NULL)
     {
        for(int j = 0; j < targets.size(); j++)
