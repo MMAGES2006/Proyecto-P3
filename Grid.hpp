@@ -32,6 +32,7 @@ public:
     void createRoom(int x, int y, RoomType type);
     bool enoughLenght(int x, int y, int lenght, RoomType fakeMap[4][4]);
     bool potentialRoom(int x, int y);
+    ~Grid();
 };
 
 #endif

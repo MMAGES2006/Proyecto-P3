@@ -30,22 +30,22 @@ void Arma::hit(vector<Enemy*> targets, Player* player, Direction direction)
   switch(direction)
   {
     case UP:
-      y = -this->owner->semiHeight;
+      y = -this->owner->spriteSemiY;
       break;
     case LEFT:
-      x = -this->owner->semiWidth;
+      x = -this->owner->spriteSemiX;
       break;
     case DOWN:
-      y = this->owner->semiHeight;
+      y = this->owner->spriteSemiY;
       break;
     case RIGHT:
-      x = this->owner->semiWidth;
+      x = this->owner->spriteSemiX;
       break;
     case NONE:
       
       break;
   }
-  circle.setPosition(this->owner->x - this->owner->semiWidth + x, this->owner->y - this->owner->semiHeight + y);
+  circle.setPosition(this->owner->x + x - this->radius, this->owner->y + y - this->radius);
   if(player == NULL)
   {
     for(int j = 0; j < targets.size(); j++)
@@ -69,7 +69,7 @@ void Arma::fire(Vector2f targetPosition, Vector2f origin)
   direction /= magnitude;
   sprite.setRadius(this->radius);
   sprite.setFillColor(Color::White);
-  sprite.setPosition(this->owner->x, this->owner->y);
+  sprite.setPosition(this->owner->x - this->radius, this->owner->y - this->radius);
   this->bullets.push_back({sprite, direction});
 }
 

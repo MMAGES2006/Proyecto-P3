@@ -9,12 +9,14 @@ Enemy::Enemy(EnemyType type, int health, int speed, Texture &texture, bool *play
     case SLIME:
       this->attackMode = MELEE;
       this->preferredDistance = 10;
-      this->coldWeapon = new Arma(3, 200, 5, this);
+      this->coldWeapon = new Arma(3, 150, 6, this);
+      this->semiWidth -= 3.7;
+      this->semiHeight -= 5;
       break;
     case MONKEY:
       this->attackMode = RANGED;
       this->preferredDistance = 100;
-      this->gun = new Arma(2, 100, 10, 3, 3, this);
+      this->gun = new Arma(2, 200, 10, 3, 3, this);
       break;
   }
 }
@@ -39,7 +41,7 @@ void Enemy::goTo(float targetX, float targetY, float time)
   }
   if(this->attackMode == MELEE) this->coldWeapon->update(time, {}, this->grid->player);
   else this->gun->update(time, {}, this->grid->player);
-  this->updateXY();
+  this->updateXY(); 
   if(this->damaged > 0) this->damaged -= time;
   else this->sprite.setColor(Color::White);
 }

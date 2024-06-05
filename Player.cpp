@@ -5,13 +5,17 @@
 Player::Player(int health, int speed, Texture &texture, bool* playing, Grid* grid, int x, int y): 
 Entity(health, speed, texture, playing, grid, x, y)
 {
+  this->levelUp = 0;
   this->weapon = 1;
   this->wait = 0;
   this->direction = NONE;
-  this->coldWeapon = new Arma(8, 20, 15, this); 
-  this->gun = new Arma(4, 50, 10, 3, 3, this);
+  this->coldWeapon = new Arma(8, 20, 12, this); 
+  this->gun = new Arma(4, 40, 10, 3, 4, this); 
   this->grid->player = this;
+  this->semiWidth -= 4.7;
+  this->semiHeight -= 0.5;
 }
+
 void Player::control(RenderWindow &window, float time)
 {
   float displacement = this->speed * time;
@@ -46,8 +50,8 @@ void Player::control(RenderWindow &window, float time)
   {
     if(this->weapon > 0)
     {
-        if(*(this->playing)) this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(900, 500));
-        else this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(this->x, this->y)); 
+      if(*(this->playing)) this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(900, 500));
+      else this->gun->fire(Vector2f(Mouse::getPosition(window)), Vector2f(this->x, this->y)); 
     }
     else this->coldWeapon->hit(this->grid->activeRoom->enemies, NULL, direction);
   }

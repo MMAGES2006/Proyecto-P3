@@ -50,24 +50,24 @@ int main() // Camera 36x20, 50 square pixels
     // Sprites
     vector<Texture> textures;
     Texture P1;
-    if (!P1.loadFromFile("sprites/personaje-frente.png"))
+    if(!P1.loadFromFile("sprites/personaje-frente.png"))
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(P1);
     Texture slime;
-    if (!slime.loadFromFile("sprites/slimeSF.png"))
+    if(!slime.loadFromFile("sprites/slimeSF.png"))
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(slime);
     Texture monkey;
-    if (!monkey.loadFromFile("sprites/P1.png"))
+    if(!monkey.loadFromFile("sprites/P1.png"))
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(monkey);
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(50, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(200, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture bala;
-    if (!bala.loadFromFile("sprites/bala.png"))
+    if(!bala.loadFromFile("sprites/bala.png"))
         cout << "Error al cargar imagen" << '\n';
    
     Clock timer;
@@ -163,6 +163,13 @@ int main() // Camera 36x20, 50 square pixels
 
                             if(wait > 0) wait -= time;
                             grid.activeRoom->killing();
+                            if(player.levelUp)
+                            {
+                                grid.~Grid();
+                                new (&grid) Grid(cols, rows, pixel, changeFactor, &playing, textures);
+                                player.setPosition(grid.spawnX, grid.spawnY);
+                                player.levelUp = 0;
+                            }
                             if(player.isDead()) 
                             {
                                 cout<<"Has muerto :(\n";
