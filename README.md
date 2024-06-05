@@ -9,6 +9,20 @@
 - Cuando se de click en la pantalla, el cuadrado se deberá mover a una velocidad razonable hacía donde se dio click.
 - Usa la base de código que se proporciona y responde todos los comentarios multilínea que haya (1 en main.cpp y 4 en Rectangle.cpp)
 
+#referencias. 
+Referencias: 
+sprite monkey: 
+https://www.deviantart.com/artsyfirefox/art/Monkey-Sprite-506492327
+
+fondo menu: 
+https://hccd.hypotheses.org/1875
+figure 5
+
+Sprite slime: 
+https://www.deviantart.com/pigmasteroink/art/Slime-Attack-Right-Sprite-959308597
+
+Sprite jugador: 
+Inspirado en el profesor Alejandro Gaytan
 
 ## Navegar en la terminal
 
@@ -23,17 +37,5 @@ Para abrirlo en la misma ventana en la que estás trabajando
 ```
 code . -r
 
-Referencias: 
-sprite monkey: 
-https://www.deviantart.com/artsyfirefox/art/Monkey-Sprite-506492327
 
-fondo menu: 
-https://hccd.hypotheses.org/1875
-figure 5
-
-Sprite slime: 
-https://www.deviantart.com/pigmasteroink/art/Slime-Attack-Right-Sprite-959308597
-
-Sprite jugador: 
-Inspirado en el profesor Alejandro Gaytan
 ```
