@@ -64,7 +64,7 @@ int main() // Camera 36x20, 50 square pixels
 
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
-    Player player(20, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
+    Player player(30, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
     
     Texture bala;
     if(!bala.loadFromFile("sprites/bala.png"))
@@ -120,10 +120,6 @@ int main() // Camera 36x20, 50 square pixels
                                         int y = event.mouseButton.y;
                                         //grid.toggle(x, y);
                                     }
-                                    /*if (event.mouseButton.button == Mouse::Right) // para cambiar entre que la camara te siga y ver el mapa
-                                    {
-                                        
-                                    }*/
                                 }
                                 if(Keyboard::isKeyPressed(Keyboard::M) && (wait <= 0)) 
                                 {

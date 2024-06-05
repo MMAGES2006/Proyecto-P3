@@ -10,7 +10,7 @@ Entity(health, speed, texture, playing, grid, x, y)
   this->wait = 0;
   this->direction = NONE;
   this->coldWeapon = new Arma(8, 20, 12, this); 
-  this->gun = new Arma(4, 40, 10, 3, 4, this); 
+  this->gun = new Arma(4, 40, 10, 4, 5, this); 
   this->grid->player = this;
   this->semiWidth -= 4.7;
   this->semiHeight -= 0.5;

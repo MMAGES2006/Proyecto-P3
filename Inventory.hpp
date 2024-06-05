@@ -1,3 +1,4 @@
+/*
 #ifndef Inventory_h
 #define Inventory_h
 #include <SFML/Graphics.hpp>
@@ -38,3 +39,4 @@ class Inventory : public Object
 }; 
 
 #endif
+*/

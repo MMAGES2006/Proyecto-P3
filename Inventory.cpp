@@ -1,3 +1,4 @@
+/*
 #include "Inventory.hpp"
 
 void Inventory::iniciar()
@@ -92,3 +93,4 @@ const bool Inventory::remove(const unsigned index)
 
     return false;
 }
+*/

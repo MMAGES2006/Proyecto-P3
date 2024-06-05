@@ -84,7 +84,7 @@ void Grid::generateMap()
     }
     else chosenType = VOID;
   }  
-  //this->createRoom(0, 0, COMBAT);
+  //this->createRoom(0, 0, SPAWN);
 }
 
 void Grid::drawTo(RenderWindow &window)
