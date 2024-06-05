@@ -4,8 +4,8 @@
 #include "Enemy.hpp"
 #include "Arma.hpp"
 #include "Menu.hpp"
-#include "Object.hpp"
-#include "Inventory.hpp"
+#include "Inventario.hpp" 
+#include "Item.hpp"
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
@@ -65,6 +65,23 @@ int main() // Camera 36x20, 50 square pixels
         cout << "Error al cargar imagen" << '\n';
     textures.push_back(pared);
 
+    Texture piso;
+    if (!pared.loadFromFile("sprites/piso.png"))
+        cout << "Error al cargar imagen" << '\n';
+    textures.push_back(piso);
+
+    vector<Item> items;
+    /*
+    Texture pocion; 
+    if (!pared.loadFromFile("sprites/pocion1.png"))
+        cout << "Error al cargar imagen" << '\n';
+
+    
+    
+    Item* item1 = new Item("pocion", sf::Vector2f(400.f, 400.f), pocion);
+    items.emplace_back("pocion", Vector2f(400.0f, 400.0f), pocion);
+    */
+   
     Grid grid(cols, rows, pixel, changeFactor, &playing, textures);
 
     Player player(100, speed, P1, &playing, &grid, grid.spawnX, grid.spawnY);
@@ -158,9 +175,34 @@ int main() // Camera 36x20, 50 square pixels
                                 window.setView(camera);
                             }
 
-                            grid.drawTo(window, pared); /*nombre textura*/
+                            grid.drawTo(window, pared); 
+                            //inventory.draw(window);
                             player.drawTo(window);
                             grid.activeRoom->drawTo(window);
+
+                            for (const auto& item : items) 
+                            {
+                                item.draw(window);
+                            }
+
+                            for (auto it = items.begin(); it != items.end();) 
+                            {
+                                if (player.getBounds().intersects(it->getBounds())) 
+                                {
+                                    player.pickUpItem(*it);
+                                    it = items.erase(it); // Eliminar objeto recogido
+                                } 
+                                else 
+                                {
+                                    ++it;
+                                }      
+                            }
+
+                            if(event.key.code == Keyboard::E)
+                            {
+                                player.showInventory();
+
+                            }
 
                             window.display();
                             time = ((float)timer.restart().asMilliseconds()) / 10; // se usa para que la velocidad no sea dependiente de los fps

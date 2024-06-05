@@ -63,9 +63,14 @@ void Player::updateRoom()
   this->grid->newRoom.second = (4* this->y) / (this->grid->pixel * this->grid->rows);
 }
 
-/*
-Player::~Player()
-{
-  delete this-> inventory; 
+void Player::pickUpItem(const Item& item) {
+    inventory.addItem(item);
 }
-*/
+
+sf::FloatRect Player::getBounds() const {
+    return sprite.getGlobalBounds();
+}
+
+void Player::showInventory() const {
+    inventory.listItems();
+}
